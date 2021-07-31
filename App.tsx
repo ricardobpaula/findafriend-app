@@ -8,19 +8,13 @@ import {
   Roboto_400Regular,
   Roboto_700Bold
 } from '@expo-google-fonts/roboto'
-import {
-  RobotoMono_400Regular,
-  RobotoMono_600SemiBold,
-  RobotoMono_700Bold
-}
-from '@expo-google-fonts/roboto-mono'
+import { StatusBar } from 'expo-status-bar'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
+import colors from './src/styles/colors'
 export default function App() {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
-    RobotoMono_400Regular,
-    RobotoMono_600SemiBold,
-    RobotoMono_700Bold
   })
 
   if(!fontsLoaded){
@@ -29,8 +23,12 @@ export default function App() {
     ) 
   }
 
-  return (
+  return (<>
+    <StatusBar
+        backgroundColor={colors.statusBar}
+         />
     <Routes/>
+    </>
   )
 
 

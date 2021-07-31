@@ -8,6 +8,7 @@ export default {
   body_light: '#FF9100',
 
   background: '#FF9E00',
+  statusBar: '#96460b',
   
   shape: '#F0F0F0',
   white: '#FFFFFF',

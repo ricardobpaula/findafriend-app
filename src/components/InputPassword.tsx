@@ -45,15 +45,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderBottomWidth: 1,
         borderColor: colors.gray,
-        marginBottom: 20,
         alignItems: 'center',
-        alignContent: 'space-around'
+        alignContent: 'space-around',
+        marginBottom: 20
     },
     input: {
-        padding: 10,
         flex: 1,
+        padding: 10,
+        width: '100%',
         color: colors.heading,
         fontSize: 16,
-        fontFamily: fonts.text,
+        fontFamily: fonts.text
     }
 })

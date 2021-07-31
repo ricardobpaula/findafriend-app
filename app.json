@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "findafriend-app",
-    "slug": "findafriend-app",
-    "version": "1.0.0",
+    "name": "FindAFriend",
+    "slug": "FindAFriend",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF9E00"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

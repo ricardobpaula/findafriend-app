@@ -21,6 +21,7 @@ import { CheckBox } from 'react-native-elements'
 import Button from '../components/Button'
 import InputPassword from '../components/InputPassword'
 import Input from '../components/Input'
+import Header from '../components/Header'
 
 import colors from '../styles/colors'
 
@@ -49,9 +50,10 @@ export function SignUp(){
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
                 >
-                    <View style={styles.header}>
-                        <Text style={styles.title}>Vamos começar</Text>
-                    </View >
+                    <Header 
+                        title='Vamos começar'
+                        previousScreen='Welcome'
+                    />
                     <ScrollView>
                         <View  style={styles.body}>
                             <KeyboardAvoidingView

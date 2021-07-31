@@ -17,6 +17,7 @@ import fonts from '../styles/fonts'
 import Button from '../components/Button'
 
 import friends from '../assets/friends.png'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 
 export function Welcome(){
     const navigation = useNavigation()
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
         fontSize: 28,
         textAlign: 'center',
         color: colors.heading,
-        marginTop: 38,
+        marginTop: getStatusBarHeight(),
         fontFamily: fonts.heading,
         lineHeight: 34
     },

@@ -4,7 +4,7 @@ import {
     View,
     TextInput,
     StyleSheet,
-    TextInputProps,
+    TextInputProps
 } from 'react-native'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
@@ -35,10 +35,12 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         flexDirection: 'row',
         borderColor: colors.gray,
-        alignContent: 'center',
+        alignContent: 'space-around',
         marginBottom: 20,
+        alignItems: 'center'
     },
     input: {
+        flex: 1,
         padding: 10,
         color: colors.heading,
         fontSize: 16,
