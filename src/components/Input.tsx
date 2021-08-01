@@ -30,7 +30,6 @@ export default function Input({...rest}:TextInputProps){
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
         width: '100%',
         borderBottomWidth: 1,
         flexDirection: 'row',

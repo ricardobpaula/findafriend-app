@@ -21,7 +21,6 @@ import { CheckBox } from 'react-native-elements'
 import Button from '../components/Button'
 import InputPassword from '../components/InputPassword'
 import Input from '../components/Input'
-import Header from '../components/CustomHeader'
 
 import colors from '../styles/colors'
 
@@ -52,7 +51,6 @@ export function SignUp() {
                 >
                     <ScrollView
                         keyboardShouldPersistTaps='handled'
-
                     >
                         <View  style={styles.body}>
                             <KeyboardAvoidingView
@@ -67,11 +65,12 @@ export function SignUp() {
                                 />
                                 <Input 
                                     placeholder='Celular'
-                                    textContentType='telephoneNumber'
+                                    keyboardType='phone-pad'
                                 />
                                 <Input 
                                     placeholder='E-mail'
                                     autoCapitalize='none'
+                                    keyboardType='email-address'
                                 />
                                 <InputPassword 
                                     placeholder='Senha'
@@ -108,7 +107,7 @@ export function SignUp() {
                         <Button 
                             title='Confirmar'
                             transparent={false}
-                        />
+                            />
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -122,24 +121,17 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
+        marginTop: 10,
     },
     content: {
-        marginTop: 10,
         flex: 1,
         width: '100%',
     },
-    
-    title: {
-        fontSize: 28,
-        lineHeight: 32,
-        textAlign: 'center',
-        color: colors.heading,
-        fontFamily: fonts.heading,
-    },
     body: {
+        flex:1 ,
         alignItems: 'center',
         width: '100%',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
     },
     checkBoxContainer: {
         width: '100%',
@@ -149,7 +141,7 @@ const styles = StyleSheet.create({
     termContainer: {
         marginTop: 10,
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     text: {
         fontSize: 15,
@@ -166,7 +158,6 @@ const styles = StyleSheet.create({
     },
     footer: {
         width: '100%',
-        paddingBottom: 20,
         paddingHorizontal: 20,
     },
     
