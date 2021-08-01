@@ -21,7 +21,7 @@ import { CheckBox } from 'react-native-elements'
 import Button from '../components/Button'
 import InputPassword from '../components/InputPassword'
 import Input from '../components/Input'
-import Header from '../components/Header'
+import Header from '../components/CustomHeader'
 
 import colors from '../styles/colors'
 
@@ -31,7 +31,7 @@ interface Params {
     type: 'adopter'|'donor'
 }
 
-export function SignUp(){
+export function SignUp() {
     
     const navigation = useNavigation()
     const routes = useRoute()
@@ -50,11 +50,10 @@ export function SignUp(){
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
                 >
-                    <Header 
-                        title='Vamos começar'
-                        previousScreen='Welcome'
-                    />
-                    <ScrollView>
+                    <ScrollView
+                        keyboardShouldPersistTaps='handled'
+
+                    >
                         <View  style={styles.body}>
                             <KeyboardAvoidingView
                                 style={styles.body}
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     content: {
+        marginTop: 10,
         flex: 1,
         width: '100%',
     },
@@ -135,12 +135,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: colors.heading,
         fontFamily: fonts.heading,
-    },
-    header: {
-        marginTop: 54,
-        paddingTop: 20,
-        marginBottom: 10,
-        alignItems: 'center'
     },
     body: {
         alignItems: 'center',

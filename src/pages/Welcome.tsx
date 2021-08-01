@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     },
     ongButtonContainer: {
         alignItems: 'center',
-        marginTop: 10
+        padding: 10,
        
     },
     ongButton: {
