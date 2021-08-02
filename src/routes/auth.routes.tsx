@@ -7,10 +7,10 @@ import { SignUp } from '../pages/SignUp'
 import { Login } from '../pages/Login'
 import CustomHeader from '../components/CustomHeader'
 
-const StackRoutes = createStackNavigator()
+const AuthStack = createStackNavigator()
 
-const AppRoutes: React.FC = () => (
-    <StackRoutes.Navigator
+const AuthRoutes: React.FC = () => (
+    <AuthStack.Navigator
         headerMode='screen'
         screenOptions={{
             cardStyle:{
@@ -18,25 +18,25 @@ const AppRoutes: React.FC = () => (
             },
         }}
     >
-        <StackRoutes.Screen
+        <AuthStack.Screen
             name='Welcome'
             component={Welcome}
             options={{
                 headerShown: false
             }}
         />
-        <StackRoutes.Screen
+        <AuthStack.Screen
             name='SignUp'
             component={SignUp}
             options={CustomHeader('Vamos começar')}
         />
-        <StackRoutes.Screen
+        <AuthStack.Screen
             name='Login'
             component={Login}
             options={CustomHeader('Login')}
         />
-    </StackRoutes.Navigator>
+    </AuthStack.Navigator>
 )
 
-export default AppRoutes
+export default AuthRoutes
 

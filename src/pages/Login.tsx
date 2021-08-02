@@ -49,7 +49,7 @@ export function Login() {
     })
 
     const width = Dimensions.get('window').width
-    const keyBoardOpen = useRef(new Animated.Value(width * 0.6)).current
+    const keyBoardOpen = useRef(new Animated.Value(width * 0.5)).current
 
     // adding listeners keyboard
     useEffect(()=>{
@@ -65,7 +65,7 @@ export function Login() {
 
     function keyboardDidShow(){
         Animated.timing(keyBoardOpen,{
-            toValue: width * 0.4,
+            toValue: width * 0.2,
             duration: 200,
             useNativeDriver:false
         }).start()
@@ -73,7 +73,7 @@ export function Login() {
 
     function keyboardDidHide(){
         Animated.timing(keyBoardOpen,{
-            toValue: width * 0.6,
+            toValue: width * 0.5,
             duration: 200,
             useNativeDriver:false
         }).start()
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         width: '100%',
-        paddingVertical: 30,
+        paddingVertical: 40,
         paddingHorizontal: 20,
     },
     forgotPassword: {

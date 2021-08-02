@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler'
+
 import React from 'react'
 import AppLoading from 'expo-app-loading'
 
@@ -9,7 +11,6 @@ import {
   Roboto_700Bold
 } from '@expo-google-fonts/roboto'
 import { StatusBar } from 'expo-status-bar'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import colors from './src/styles/colors'
 export default function App() {
   const [fontsLoaded] = useFonts({
