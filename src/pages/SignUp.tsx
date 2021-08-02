@@ -2,7 +2,7 @@ import {
     useNavigation, 
     useRoute
 } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
@@ -14,6 +14,7 @@ import {
     TouchableOpacity,
     Linking,
     ScrollView,
+    Alert,
 } from 'react-native'
 
 import { CheckBox } from 'react-native-elements'
@@ -26,6 +27,11 @@ import colors from '../styles/colors'
 
 import fonts from '../styles/fonts'
 
+import * as yup from 'yup'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+
 interface Params {
     type: 'adopter'|'donor'
 }
@@ -36,10 +42,51 @@ export function SignUp() {
     const routes = useRoute()
     const [isOng, setIsOng] = useState(false)
 
+    const fieldValidationSchema = yup.object().shape({
+        firstName: yup
+            .string()
+            .required('Nome é obrigatorio'),
+        lastName: yup
+            .string()
+            .required('Sobrenome é obrigatorio'),
+        phone: yup
+            .number()
+            .required('Celular é obrigatorio'),
+        email: yup
+            .string()
+            .required('E-mail é obrigatorio')
+            .email('E-mail invalido'),
+        password: yup
+            .string()
+            .required('Senha é obrigatoria')
+            .oneOf([yup.ref('confirmPassword'),null],'Senha e confirmação de senha não conferem'),
+        confirmPassword: yup
+            .string()
+            .required('Confirmação de senha é obrigatoria')
+            .oneOf([yup.ref('password'),null],'Senha e confirmação de senha não conferem'),
+    })
+
+    const { register, setValue, handleSubmit, formState:{errors } } = useForm({
+        resolver: yupResolver(fieldValidationSchema)
+    })
+
     const {type} = routes.params as Params
     
     function handleOpenTerm(){
         // Linking.openURL('http://google.com')
+    }
+
+    useEffect(()=>{
+        register('firstName')
+        register('lastName')
+        register('phone')
+        register('email')
+        register('password')
+        register('confirmPassword')
+    },[register])
+
+    function onSubmit(data: any){
+
     }
 
     return (
@@ -59,24 +106,36 @@ export function SignUp() {
                             >
                                 <Input 
                                     placeholder='Nome'
+                                    onChangeText={text=>setValue('firstName',text)}
+                                    error={errors?.firstName}
                                 />
                                  <Input 
                                     placeholder='Sobrenome'
+                                    onChangeText={text=>setValue('lastName',text)}
+                                    error={errors?.lastName}
                                 />
                                 <Input 
                                     placeholder='Celular'
                                     keyboardType='phone-pad'
+                                    onChangeText={text=>setValue('phone',text)}
+                                    error={errors?.phone}
                                 />
                                 <Input 
                                     placeholder='E-mail'
                                     autoCapitalize='none'
                                     keyboardType='email-address'
+                                    onChangeText={text=>setValue('email',text)}
+                                    error={errors?.email}
                                 />
                                 <InputPassword 
                                     placeholder='Senha'
+                                    onChangeText={text=>setValue('password',text)}
+                                    error={errors?.password}
                                 />
                                 <InputPassword 
                                     placeholder='Confirmação da senha'
+                                    onChangeText={text=>setValue('confirmPassword',text)}
+                                    error={errors?.confirmPassword}
                                 />
                                 
                                 <TouchableOpacity style={styles.checkBoxContainer}
@@ -107,6 +166,7 @@ export function SignUp() {
                         <Button 
                             title='Confirmar'
                             transparent={false}
+                            onPress={handleSubmit(onSubmit)}
                             />
                     </View>
                 </View>

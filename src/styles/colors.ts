@@ -20,4 +20,5 @@ black: '#000f14',
   blue_light: '#9CEFFF',
 
   green: '#4DFF67',
+  red: 'red'
 };

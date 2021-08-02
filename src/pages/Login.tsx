@@ -9,13 +9,16 @@ import {
     View,
     Keyboard,
     TouchableWithoutFeedback,
-    Image,
     Dimensions,
     TouchableOpacity,
     Text,
     Animated
 
 } from 'react-native'
+
+import * as yup from 'yup'
+
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import Button from '../components/Button'
 import InputPassword from '../components/InputPassword'
@@ -25,18 +28,40 @@ import icon from '../assets/icon.png'
 import fonts from '../styles/fonts'
 import colors from '../styles/colors'
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { useForm } from 'react-hook-form'
 
 export function Login() {
     
     const navigation = useNavigation()
+    
+    const fieldValidationSchema = yup.object().shape({
+        email: yup
+            .string()
+            .required('E-mail é obrigatorio')
+            .email('E-mail invalido'),
+        password: yup
+            .string()
+            .required('Senha é obrigatoria')
+    })
+    
+    const { register, setValue, handleSubmit,formState:{errors} } = useForm({
+        resolver: yupResolver(fieldValidationSchema)
+    })
+
     const width = Dimensions.get('window').width
     const keyBoardOpen = useRef(new Animated.Value(width * 0.6)).current
 
-    
+    // adding listeners keyboard
     useEffect(()=>{
         Keyboard.addListener('keyboardDidShow',keyboardDidShow)
         Keyboard.addListener('keyboardDidHide',keyboardDidHide)
     },[])
+
+    // adding registers react-hook-form
+    useEffect(()=>{
+        register('email')
+        register('password')
+    },[register])
 
     function keyboardDidShow(){
         Animated.timing(keyBoardOpen,{
@@ -52,6 +77,10 @@ export function Login() {
             duration: 200,
             useNativeDriver:false
         }).start()
+    }
+
+    function onSubmit(data: any){
+        console.log(data)
     }
 
     function handleForgotPassword(){
@@ -85,10 +114,14 @@ export function Login() {
                                 placeholder='E-mail'
                                 autoCapitalize='none'
                                 keyboardType='email-address'
+                                onChangeText={text=>setValue('email',text)}
+                                error={errors?.email}
                             />
 
                             <InputPassword 
                                 placeholder='Senha'
+                                onChangeText={text=>setValue('password',text)}
+                                error={errors?.password}
                             />
 
                             <TouchableOpacity
@@ -106,7 +139,7 @@ export function Login() {
                         <Button 
                             title='Confirmar'
                             transparent={false}
-                            onPress={handleForgotPassword}
+                            onPress={handleSubmit(onSubmit)}
                         />
                     </View>
                 </View>
