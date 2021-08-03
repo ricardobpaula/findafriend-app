@@ -14,7 +14,6 @@ import {
     TouchableOpacity,
     Linking,
     ScrollView,
-    Alert,
 } from 'react-native'
 
 import { CheckBox } from 'react-native-elements'
@@ -39,6 +38,7 @@ interface Params {
 export function SignUp() {
     
     const navigation = useNavigation()
+    
     const routes = useRoute()
     const [isOng, setIsOng] = useState(false)
 

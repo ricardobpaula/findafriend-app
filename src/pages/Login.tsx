@@ -30,14 +30,14 @@ import Input from '../components/Input'
 import icon from '../assets/icon.png'
 import fonts from '../styles/fonts'
 import colors from '../styles/colors'
+import { useAuth } from '../contexts/auth'
 
-import AuthContext from '../contexts/auth'
 
 export function Login() {
     
     const navigation = useNavigation()
 
-    const {signed, login} = useContext(AuthContext)
+    const {signed, login} = useAuth()
     
     const fieldValidationSchema = yup.object().shape({
         email: yup
@@ -85,7 +85,6 @@ export function Login() {
     }
 
     async function onSubmit(data: any){
-        console.log(data)
         await login()
     }
 

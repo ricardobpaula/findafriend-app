@@ -1,13 +1,23 @@
-import  React, { createContext, useState } from 'react'
+import  React, { createContext, useState, useEffect, useContext } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import signIn from '../services/auth'   
-import { useEffect } from 'react'
+import api from '../services/api'
+
+interface User {
+        firstName: string,
+        lastName: string,
+        phone: string,
+        email: string,
+        isFinding: boolean,
+        isOng: boolean,
+        avatar?: string
+}
 
 interface AuthContextProps {
     signed: boolean,
-    user: object,
+    user: User | undefined,
     login(): Promise<void>,
     logout(): void,
     loading: boolean
@@ -16,7 +26,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export const AuthProvider:React.FC = ({children}) => {
-    const [user, setUser] = useState<Object|undefined>(undefined)
+    const [user, setUser] = useState<User|undefined>(undefined)
     const [loading, setLoading] = useState(true)
     
     // Get info async storage
@@ -27,13 +37,18 @@ export const AuthProvider:React.FC = ({children}) => {
                 '@FindAFriend:user'
             ])
 
-            if(response[1] && response[1]){
-                setUser(JSON.parse(String(response[1])))
+            const storagedToken = response[0][1]
+            const storagedUser = response[1][1]
+
+            if(storagedUser && storagedToken){
+                setUser(JSON.parse(String(storagedUser)))
+                api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`
             }
+            setLoading(false)
         }
-        
         loadStorage()
     },[])
+
      async function login(){
         const response = await signIn()
         
@@ -44,6 +59,10 @@ export const AuthProvider:React.FC = ({children}) => {
             ['@FindAFriend:user',JSON.stringify(response.user)]
         ])
 
+        api.defaults.headers['Authorization'] = `Bearer ${response.token}`
+
+        setLoading(false)
+
     }
 
     async function logout(){
@@ -52,10 +71,14 @@ export const AuthProvider:React.FC = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{signed: !!user, user: {}, login, logout, loading}}>
+        <AuthContext.Provider value={{signed: !!user, user, login, logout, loading}}>
             {children}
         </AuthContext.Provider>
     )
 }
 
-export default AuthContext
+export function useAuth(){
+    const context = useContext(AuthContext)
+
+    return context
+}

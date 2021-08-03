@@ -7,7 +7,7 @@ interface Response {
         email: string,
         isFinding: boolean,
         isOng: boolean,
-        avatar: 'default.png'
+        avatar: string
     }
 }
 

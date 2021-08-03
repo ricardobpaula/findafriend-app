@@ -9,34 +9,36 @@ import CustomHeader from '../components/CustomHeader'
 
 const AuthStack = createStackNavigator()
 
-const AuthRoutes: React.FC = () => (
-    <AuthStack.Navigator
-        headerMode='screen'
-        screenOptions={{
-            cardStyle:{
-                backgroundColor: colors.white
-            },
-        }}
-    >
-        <AuthStack.Screen
-            name='Welcome'
-            component={Welcome}
-            options={{
-                headerShown: false
+const AuthRoutes: React.FC = () => {
+    return (
+        <AuthStack.Navigator
+            headerMode='screen'
+            screenOptions={{
+                cardStyle:{
+                    backgroundColor: colors.white
+                },
             }}
-        />
-        <AuthStack.Screen
-            name='SignUp'
-            component={SignUp}
-            options={CustomHeader('Vamos começar')}
-        />
-        <AuthStack.Screen
-            name='Login'
-            component={Login}
-            options={CustomHeader('Login')}
-        />
-    </AuthStack.Navigator>
-)
+        >
+            <AuthStack.Screen
+                name='Welcome'
+                component={Welcome}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <AuthStack.Screen
+                name='SignUp'
+                component={SignUp}
+                options={CustomHeader('Vamos começar')}
+            />
+            <AuthStack.Screen
+                name='Login'
+                component={Login}
+                options={CustomHeader('Login')}
+            />
+        </AuthStack.Navigator>
+    )
+}
 
 export default AuthRoutes
 
