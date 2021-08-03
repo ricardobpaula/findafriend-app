@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef, useContext } from 'react'
 import { 
     useNavigation, 
 } from '@react-navigation/native'
@@ -16,6 +16,9 @@ import {
 
 } from 'react-native'
 
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import { useForm } from 'react-hook-form'
+
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -27,21 +30,23 @@ import Input from '../components/Input'
 import icon from '../assets/icon.png'
 import fonts from '../styles/fonts'
 import colors from '../styles/colors'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
-import { useForm } from 'react-hook-form'
+
+import AuthContext from '../contexts/auth'
 
 export function Login() {
     
     const navigation = useNavigation()
+
+    const {signed, login} = useContext(AuthContext)
     
     const fieldValidationSchema = yup.object().shape({
         email: yup
-            .string()
-            .required('E-mail é obrigatorio')
-            .email('E-mail invalido'),
+            .string(),
+            // .required('E-mail é obrigatorio')
+            // .email('E-mail invalido'),
         password: yup
             .string()
-            .required('Senha é obrigatoria')
+            // .required('Senha é obrigatoria')
     })
     
     const { register, setValue, handleSubmit,formState:{errors} } = useForm({
@@ -79,8 +84,9 @@ export function Login() {
         }).start()
     }
 
-    function onSubmit(data: any){
+    async function onSubmit(data: any){
         console.log(data)
+        await login()
     }
 
     function handleForgotPassword(){

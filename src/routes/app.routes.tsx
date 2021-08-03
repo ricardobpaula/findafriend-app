@@ -16,3 +16,5 @@ const AppRoutes: React.FC = () => {
         </AppStack.Navigator>
     )
 }
+
+export default AppRoutes
