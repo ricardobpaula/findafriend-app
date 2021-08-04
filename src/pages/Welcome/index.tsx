@@ -2,24 +2,20 @@ import React from 'react'
 import { 
     Text, 
     SafeAreaView, 
-    StyleSheet, 
     View, 
     Image, 
-    Dimensions, 
     TouchableOpacity 
 } from 'react-native'
 
 import { useNavigation } from '@react-navigation/core'
 
-import colors from '../styles/colors'
-import fonts from '../styles/fonts'
+import styles from './styles'
 
-import Button from '../components/Button'
+import Button from '../../components/Button'
 
-import friends from '../assets/friends.png'
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
+import friends from '../../assets/friends.png'
 
-export function Welcome(){
+const Welcome:React.FC = () => {
     const navigation = useNavigation()
 
     function handleSignUp(type:'adopter'|'donor'){
@@ -71,42 +67,4 @@ export function Welcome(){
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingBottom: 10,
-    },
-    wrapper: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        paddingHorizontal: 20
-    },
-    title:{
-        fontSize: 28,
-        textAlign: 'center',
-        color: colors.heading,
-        marginTop: getStatusBarHeight(),
-        fontFamily: fonts.heading,
-        lineHeight: 34
-    },
-    image: {
-        height: Dimensions.get('window').width * 0.7
-    },
-    footer:{
-        width: '100%',
-        paddingHorizontal: 40,
-    },
-    ongButtonContainer: {
-        alignItems: 'center',
-        padding: 10,
-       
-    },
-    ongButton: {
-        textDecorationLine: 'underline',
-        fontFamily: fonts.heading,
-        color: colors.heading,
-        fontSize: 16
-    }
-    
-})
+export default Welcome

@@ -2,8 +2,8 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import colors from '../styles/colors'
-import { Welcome } from '../pages/Welcome'
-import { SignUp } from '../pages/SignUp'
+import Welcome from '../pages/Welcome'
+import SignUp from '../pages/SignUp'
 import { Login } from '../pages/Login'
 import CustomHeader from '../components/CustomHeader'
 

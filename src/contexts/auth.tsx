@@ -2,10 +2,10 @@ import  React, { createContext, useState, useEffect, useContext } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import signIn from '../services/auth'   
 import api from '../services/api'
 
 interface User {
+        id: string,
         firstName: string,
         lastName: string,
         phone: string,
@@ -15,10 +15,20 @@ interface User {
         avatar?: string
 }
 
+interface Response {
+    user: User,
+    token: string
+}
+
+interface Request {
+    email: string,
+    password: string
+}
+
 interface AuthContextProps {
     signed: boolean,
     user: User | undefined,
-    login(): Promise<void>,
+    login(request: Request): Promise<void>,
     logout(): void,
     loading: boolean
 }
@@ -49,17 +59,21 @@ export const AuthProvider:React.FC = ({children}) => {
         loadStorage()
     },[])
 
-     async function login(){
-        const response = await signIn()
+     async function login(request:Request ){
         
-        setUser(response.user)
+        const {data} = await api.post<Response>('login',{
+            email: request.email,
+            password: request.password
+        })
+
+        setUser(data.user)
 
         await AsyncStorage.multiSet([
-            ['@FindAFriend:token',response.token],
-            ['@FindAFriend:user',JSON.stringify(response.user)]
+            ['@FindAFriend:token',data.token],
+            ['@FindAFriend:user',JSON.stringify(data.user)]
         ])
 
-        api.defaults.headers['Authorization'] = `Bearer ${response.token}`
+        api.defaults.headers['Authorization'] = `Bearer ${data.token}`
 
         setLoading(false)
 

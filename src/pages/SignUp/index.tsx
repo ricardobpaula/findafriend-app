@@ -1,12 +1,11 @@
+import React, { useState, useEffect } from 'react'
 import { 
     useNavigation, 
     useRoute
 } from '@react-navigation/native'
-import React, { useState, useEffect } from 'react'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
-    StyleSheet, 
     Text, 
     View,
     Keyboard,
@@ -18,24 +17,24 @@ import {
 
 import { CheckBox } from 'react-native-elements'
 
-import Button from '../components/Button'
-import InputPassword from '../components/InputPassword'
-import Input from '../components/Input'
-
-import colors from '../styles/colors'
-
-import fonts from '../styles/fonts'
-
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
+import styles from './styles'
+
+import Button from '../../components/Button'
+import InputPassword from '../../components/InputPassword'
+import Input from '../../components/Input'
+
+import colors from '../../styles/colors'
+
 interface Params {
     type: 'adopter'|'donor'
 }
 
-export function SignUp() {
+const SignUp:React.FC = () => {
     
     const navigation = useNavigation()
     
@@ -176,49 +175,4 @@ export function SignUp() {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        marginTop: 10,
-    },
-    content: {
-        flex: 1,
-        width: '100%',
-    },
-    body: {
-        flex:1 ,
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 10,
-    },
-    checkBoxContainer: {
-        width: '100%',
-        flexDirection:'row', 
-        alignItems: 'center',
-    },
-    termContainer: {
-        marginTop: 10,
-        width: '100%',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 15,
-        textAlign: 'center',
-        color: colors.black,
-        fontFamily: fonts.text
-    },
-    link: {
-        textAlign: 'center',
-        fontSize: 15,
-        color: colors.heading,
-        fontFamily: fonts.text,
-        textDecorationLine: 'underline'
-    },
-    footer: {
-        width: '100%',
-        paddingHorizontal: 20,
-    },
-    
-})
+export default SignUp

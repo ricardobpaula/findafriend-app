@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useContext } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { 
     useNavigation, 
 } from '@react-navigation/native'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
-    StyleSheet, 
     View,
     Keyboard,
     TouchableWithoutFeedback,
@@ -16,22 +15,22 @@ import {
 
 } from 'react-native'
 
-import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import { useForm } from 'react-hook-form'
 
 import * as yup from 'yup'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import Button from '../components/Button'
-import InputPassword from '../components/InputPassword'
-import Input from '../components/Input'
+import { useAuth } from '../../contexts/auth'
 
-import icon from '../assets/icon.png'
-import fonts from '../styles/fonts'
-import colors from '../styles/colors'
-import { useAuth } from '../contexts/auth'
+import styles from './styles'
 
+import Button from '../../components/Button'
+import InputPassword from '../../components/InputPassword'
+import Input from '../../components/Input'
+
+import icon from '../../assets/icon.png'
+import api from '../../services/api'
 
 export function Login() {
     
@@ -41,12 +40,12 @@ export function Login() {
     
     const fieldValidationSchema = yup.object().shape({
         email: yup
-            .string(),
-            // .required('E-mail é obrigatorio')
-            // .email('E-mail invalido'),
+            .string()
+            .required('E-mail é obrigatorio')
+            .email('E-mail invalido'),
         password: yup
             .string()
-            // .required('Senha é obrigatoria')
+            .required('Senha é obrigatoria')
     })
     
     const { register, setValue, handleSubmit,formState:{errors} } = useForm({
@@ -85,7 +84,9 @@ export function Login() {
     }
 
     async function onSubmit(data: any){
-        await login()
+        await login(data)
+
+        // navigation.navigate('Dashboard')
     }
 
     function handleForgotPassword(){
@@ -153,48 +154,3 @@ export function Login() {
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-    },
-    content: {
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        flex: 1,
-        width: '100%',
-    },
-    header: {
-        marginBottom: 50,
-        paddingTop: 20
-    },
-    body: {
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 10,
-    },
-    title: {
-        fontSize: 28,
-        textAlign: 'center',
-        color: colors.heading,
-        marginTop: getStatusBarHeight(),
-        fontFamily: fonts.heading,
-        lineHeight: 34
-    },
-    footer: {
-        width: '100%',
-        paddingVertical: 40,
-        paddingHorizontal: 20,
-    },
-    forgotPassword: {
-        width: '100%',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 15,
-        textAlign: 'center',
-        color: colors.body_light,
-        fontFamily: fonts.text
-    }
-})

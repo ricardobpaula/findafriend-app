@@ -1,12 +1,15 @@
-import React, {useContext} from 'react'
+import React from 'react'
 
 import {
     View,
     Text,
-    StyleSheet
 } from 'react-native'
-import Button from '../components/Button'
-import { useAuth } from '../contexts/auth'
+
+import styles from './styles'
+
+import Button from '../../components/Button'
+
+import { useAuth } from '../../contexts/auth'
 
 const Dashboard:React.FC = () => {
     const { logout } = useAuth()
@@ -25,14 +28,5 @@ const Dashboard:React.FC = () => {
     )
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: '100%',
-        alignContent: 'center',
-        alignItems: 'center'
-    }
-})
 
 export default Dashboard
