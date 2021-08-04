@@ -3,6 +3,7 @@ import  React, { createContext, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import api from '../services/api'
+import { Alert } from 'react-native'
 
 interface User {
         id: string,
@@ -61,22 +62,25 @@ export const AuthProvider:React.FC = ({children}) => {
 
      async function login(request:Request ){
         
-        const {data} = await api.post<Response>('login',{
-            email: request.email,
-            password: request.password
-        })
+        try {
+            const {data} = await api.post<Response>('login',{
+                email: request.email,
+                password: request.password
+            })
+            console.log(data)
+            setUser(data.user)
 
-        setUser(data.user)
+            await AsyncStorage.multiSet([
+                ['@FindAFriend:token',data.token],
+                ['@FindAFriend:user',JSON.stringify(data.user)]
+            ])
 
-        await AsyncStorage.multiSet([
-            ['@FindAFriend:token',data.token],
-            ['@FindAFriend:user',JSON.stringify(data.user)]
-        ])
+            api.defaults.headers['Authorization'] = `Bearer ${data.token}`
 
-        api.defaults.headers['Authorization'] = `Bearer ${data.token}`
-
-        setLoading(false)
-
+            setLoading(false)
+        }catch(e){
+            // TODO tratar erros 401 e 500 com modal
+        }
     }
 
     async function logout(){

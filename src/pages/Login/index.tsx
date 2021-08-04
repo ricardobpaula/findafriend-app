@@ -1,7 +1,4 @@
-import React, { useEffect, useRef } from 'react'
-import { 
-    useNavigation, 
-} from '@react-navigation/native'
+import React, { useEffect, useRef, useState } from 'react'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
@@ -34,7 +31,7 @@ import api from '../../services/api'
 
 export function Login() {
     
-    const navigation = useNavigation()
+    const [error, setError] = useState<string>()
 
     const {signed, login} = useAuth()
     
@@ -85,8 +82,6 @@ export function Login() {
 
     async function onSubmit(data: any){
         await login(data)
-
-        // navigation.navigate('Dashboard')
     }
 
     function handleForgotPassword(){
@@ -98,7 +93,7 @@ export function Login() {
             
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
-                >
+                >   
                     <View style={styles.header}>
                         <Text style={styles.title}> Bem vindo de volta</Text>
                     </View>
