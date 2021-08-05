@@ -3,18 +3,7 @@ import  React, { createContext, useState, useEffect, useContext } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import api from '../services/api'
-import { Alert } from 'react-native'
-
-interface User {
-        id: string,
-        firstName: string,
-        lastName: string,
-        phone: string,
-        email: string,
-        isFinding: boolean,
-        isOng: boolean,
-        avatar?: string
-}
+import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
 
 interface Response {
     user: User,
@@ -43,17 +32,11 @@ export const AuthProvider:React.FC = ({children}) => {
     // Get info async storage
     useEffect(()=>{
         async function loadStorage(){
-            const response = await AsyncStorage.multiGet([
-                '@FindAFriend:token',
-                '@FindAFriend:user'
-            ])
+            const response = await getAuthStorage()
 
-            const storagedToken = response[0][1]
-            const storagedUser = response[1][1]
-
-            if(storagedUser && storagedToken){
-                setUser(JSON.parse(String(storagedUser)))
-                api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`
+            if(response){
+                setUser(response.user)
+                api.defaults.headers['Authorization'] = `Bearer ${response.token}`
             }
             setLoading(false)
         }
@@ -67,13 +50,9 @@ export const AuthProvider:React.FC = ({children}) => {
                 email: request.email,
                 password: request.password
             })
-            console.log(data)
             setUser(data.user)
 
-            await AsyncStorage.multiSet([
-                ['@FindAFriend:token',data.token],
-                ['@FindAFriend:user',JSON.stringify(data.user)]
-            ])
+            setAuthStorage(data)
 
             api.defaults.headers['Authorization'] = `Bearer ${data.token}`
 
