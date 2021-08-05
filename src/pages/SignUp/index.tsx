@@ -13,6 +13,7 @@ import {
     TouchableOpacity,
     Linking,
     ScrollView,
+    Alert,
 } from 'react-native'
 
 import { CheckBox } from 'react-native-elements'
@@ -22,16 +23,33 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
+import api from '../../services/api'
+import {setAuthStorage} from '../../utils/auth.storage'
+
 import styles from './styles'
+import colors from '../../styles/colors'
 
 import Button from '../../components/Button'
 import InputPassword from '../../components/InputPassword'
 import Input from '../../components/Input'
 
-import colors from '../../styles/colors'
 
 interface Params {
     type: 'adopter'|'donor'
+}
+
+interface Form {
+    firstName: string,
+    lastName: string,
+    phone: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
+
+interface Response {
+    user: User,
+    token: string
 }
 
 const SignUp:React.FC = () => {
@@ -84,8 +102,28 @@ const SignUp:React.FC = () => {
         register('confirmPassword')
     },[register])
 
-    function onSubmit(data: any){
+    async function onSubmit(user: Form){
+        console.log('phone: ',user.phone)
+        try {
+            const request = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                phone:user.phone,
+                email: user.email,
+                password: user.password,
+                isFinding: type === 'adopter' ? true : false,
+                isOng: isOng
+            }
+            const { data } = await api.post<Response>('/users',request)
 
+            setAuthStorage(data)
+
+            api.defaults.headers['Authorization'] = `Bearer ${data.token}`
+
+        }catch(e){
+            //TODO tratar erros 401 e 500 com modal
+            console.log(e.error)
+        }
     }
 
     return (
