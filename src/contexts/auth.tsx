@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from '../services/api'
 import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
 
-interface Response {
+interface AuthProps {
     user: User,
     token: string
 }
@@ -20,6 +20,7 @@ interface AuthContextProps {
     user: User | undefined,
     login(request: Request): Promise<void>,
     logout(): void,
+    signIn(auth:AuthProps): Promise<void>,
     loading: boolean
 }
 
@@ -46,7 +47,7 @@ export const AuthProvider:React.FC = ({children}) => {
      async function login(request:Request ){
         
         try {
-            const {data} = await api.post<Response>('/login',{
+            const {data} = await api.post<AuthProps>('/login',{
                 email: request.email,
                 password: request.password
             })
@@ -59,6 +60,7 @@ export const AuthProvider:React.FC = ({children}) => {
             setLoading(false)
         }catch(e){
             // TODO tratar erros 401 e 500 com modal
+            console.log(e)
         }
     }
 
@@ -67,8 +69,18 @@ export const AuthProvider:React.FC = ({children}) => {
         setUser(undefined)
     }
 
+    async function signIn(data:AuthProps){
+        
+        setUser(data.user)
+
+        setAuthStorage(data)
+
+        api.defaults.headers['Authorization'] = `Bearer ${data.token}`
+
+    }
+
     return (
-        <AuthContext.Provider value={{signed: !!user, user, login, logout, loading}}>
+        <AuthContext.Provider value={{signed: !!user, user, login, logout,signIn, loading}}>
             {children}
         </AuthContext.Provider>
     )
