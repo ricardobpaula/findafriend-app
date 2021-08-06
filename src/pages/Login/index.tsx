@@ -28,10 +28,11 @@ import Input from '../../components/Input'
 
 import icon from '../../assets/icon.png'
 import api from '../../services/api'
+import Error from '../../components/Error'
 
 export function Login() {
     
-    const [error, setError] = useState<string>()
+    const [hasError, setHasError] = useState(false)
 
     const {signed, login} = useAuth()
     
@@ -82,10 +83,15 @@ export function Login() {
 
     async function onSubmit(data: any){
         await login(data)
+        // setHasError(true)
     }
 
     function handleForgotPassword(){
 
+    }
+
+    function handleCloseError(){
+        // setHasError(false)
     }
 
     return (
@@ -143,6 +149,12 @@ export function Login() {
                             onPress={handleSubmit(onSubmit)}
                         />
                     </View>
+
+                    <Error
+                        title='Error'
+                        message='Mensagem de erro'
+                        visible={hasError}
+                />
                 </View>
             </TouchableWithoutFeedback>
 

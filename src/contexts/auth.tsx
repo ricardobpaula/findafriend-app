@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import api from '../services/api'
 import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
+import { Alert } from 'react-native'
 
 interface AuthProps {
     user: User,
@@ -46,22 +47,41 @@ export const AuthProvider:React.FC = ({children}) => {
 
      async function login(request:Request ){
         
-        try {
-            const {data} = await api.post<AuthProps>('/login',{
-                email: request.email,
-                password: request.password
-            })
+        await api.post<AuthProps>('/login',{
+            email: request.email,
+            password: request.password
+        }).then((response) => {
+            const data = response.data
+
             setUser(data.user)
-
+            
             setAuthStorage(data)
-
+            
             api.defaults.headers['Authorization'] = `Bearer ${data.token}`
-
+            
             setLoading(false)
-        }catch(e){
-            // TODO tratar erros 401 e 500 com modal
-            console.log(e)
-        }
+        }).catch(error => {
+            if(!error){
+                return
+            }
+            // TODO migrar erro para componente model
+            const response = error.response
+            let message
+            switch (response.status){
+                case 401:
+                    message = 'E-mail/Senha estão incorretos.'
+                    break
+                case 500:
+                    message = 'Nos desculpe, não foi se conectar com nossos servidores.'
+                    break
+                default:
+                    message = 'Oops, algo de errado não está certo.'
+                    break
+            }
+            
+            Alert.alert('Erro',message)
+            // console.log(message)
+        })
     }
 
     async function logout(){
