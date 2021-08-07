@@ -14,7 +14,7 @@ interface InputProps extends TextInputProps {
     error?: any
 }
 
-export default function Input({error,...rest}:InputProps){
+export const Input:React.FC<InputProps> = ({error,...rest}) => {
     const [focus, setFocus] = useState(false)
 
     return (

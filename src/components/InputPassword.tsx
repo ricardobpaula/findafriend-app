@@ -16,7 +16,7 @@ interface InputPasswordProps extends TextInputProps {
     error?: any
 }
 
-export default function InputPassword({error,...rest}:InputPasswordProps){
+export const InputPassword:React.FC<InputPasswordProps> = ({error,...rest}) => {
     const [focus, setFocus] = useState(false)
     const [secure, setSecure ] = useState(true)
 

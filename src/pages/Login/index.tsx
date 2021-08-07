@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
@@ -23,18 +23,14 @@ import { useAuth } from '../../contexts/auth'
 import styles from './styles'
 
 import Button from '../../components/Button'
-import InputPassword from '../../components/InputPassword'
-import Input from '../../components/Input'
+import {InputPassword} from '../../components/InputPassword'
+import {Input} from '../../components/Input'
 
 import icon from '../../assets/icon.png'
-import api from '../../services/api'
-import Error from '../../components/Error'
 
 export function Login() {
     
-    const [hasError, setHasError] = useState(false)
-
-    const {signed, login} = useAuth()
+    const {login} = useAuth()
     
     const fieldValidationSchema = yup.object().shape({
         email: yup
@@ -83,15 +79,10 @@ export function Login() {
 
     async function onSubmit(data: any){
         await login(data)
-        // setHasError(true)
     }
 
     function handleForgotPassword(){
 
-    }
-
-    function handleCloseError(){
-        // setHasError(false)
     }
 
     return (
@@ -150,11 +141,6 @@ export function Login() {
                         />
                     </View>
 
-                    <Error
-                        title='Error'
-                        message='Mensagem de erro'
-                        visible={hasError}
-                />
                 </View>
             </TouchableWithoutFeedback>
 
