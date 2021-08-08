@@ -23,8 +23,8 @@ import { useAuth } from '../../contexts/auth'
 import styles from './styles'
 
 import Button from '../../components/Button'
-import {InputPassword} from '../../components/InputPassword'
-import {Input} from '../../components/Input'
+import InputPassword from '../../components/InputPassword'
+import Input from '../../components/Input'
 
 import icon from '../../assets/icon.png'
 

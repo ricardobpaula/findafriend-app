@@ -14,7 +14,7 @@ interface InputProps extends TextInputProps {
     error?: any
 }
 
-export const Input:React.FC<InputProps> = ({error,...rest}) => {
+const Input:React.FC<InputProps> = ({error,...rest}) => {
     const [focus, setFocus] = useState(false)
 
     return (
@@ -39,6 +39,8 @@ export const Input:React.FC<InputProps> = ({error,...rest}) => {
             </View>
     )
 }
+
+export default Input
 
 const styles = StyleSheet.create({
     container: {

@@ -13,7 +13,6 @@ import {
     TouchableOpacity,
     Linking,
     ScrollView,
-    Alert,
 } from 'react-native'
 
 import { CheckBox } from 'react-native-elements'
@@ -24,7 +23,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 import api from '../../services/api'
-import {setAuthStorage} from '../../utils/auth.storage'
 
 import styles from './styles'
 import colors from '../../styles/colors'

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef } from 'react'
 
 import {
     View,
@@ -17,13 +17,13 @@ const Dashboard:React.FC = () => {
     const { logout } = useAuth()
     const modalRef = useRef<AlertHandles>(null)
     
-    const handleLogout = useCallback(() => {
+    function handleLogout() {
         logout()
-    },[])
+    }
 
-    const handleOpenModal = useCallback(()=>{
+    function handleOpenModal(){
         modalRef.current?.openModal()
-    },[])
+    }
 
     return (
         <View style={styles.container}>
