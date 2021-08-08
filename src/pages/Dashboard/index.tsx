@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 
 import {
     View,
     Text,
-    Modal,
-    Alert,
 } from 'react-native'
 
 import styles from './styles'
@@ -13,15 +11,19 @@ import Button from '../../components/Button'
 
 import { useAuth } from '../../contexts/auth'
 
-import CustomAlert from '../../components/CustomAlert'
+import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
 
 const Dashboard:React.FC = () => {
     const { logout } = useAuth()
+    const modalRef = useRef<AlertHandles>(null)
     
-    function handleLogout(){
-        
+    const handleLogout = useCallback(() => {
         logout()
-    }
+    },[])
+
+    const handleOpenModal = useCallback(()=>{
+        modalRef.current?.openModal()
+    },[])
 
     return (
         <View style={styles.container}>
@@ -29,11 +31,9 @@ const Dashboard:React.FC = () => {
                 Dashboard
             </Text>
             <Button title='Logout' transparent={true} onPress={handleLogout}/>
-            <Button title='Open Modal' transparent={false} onPress={()=>{}}/>
+            <Button title='Open Modal' transparent={false} onPress={handleOpenModal}/>
             <CustomAlert
-                title='Erro'
-                message="E-mail/Senha estão incorretos."
-                type="confirm"
+            ref={modalRef}
             />
 
         </View>
