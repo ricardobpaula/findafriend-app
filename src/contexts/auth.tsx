@@ -1,10 +1,10 @@
-import  React, { createContext, useState, useEffect, useContext } from 'react'
+import  React, { createContext, useState, useEffect, useContext, useRef } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import api from '../services/api'
 import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
-import { Alert } from 'react-native'
+import { createIconSetFromFontello } from '@expo/vector-icons'
 
 interface AuthProps {
     user: User,
@@ -19,7 +19,7 @@ interface Request {
 interface AuthContextProps {
     signed: boolean,
     user: User | undefined,
-    login(request: Request): Promise<void>,
+    login(request: Request): Promise<void|string>,
     logout(): void,
     signIn(auth:AuthProps): Promise<void>,
     loading: boolean
@@ -46,13 +46,12 @@ export const AuthProvider:React.FC = ({children}) => {
     },[])
 
      async function login(request:Request ){
-        
-        await api.post<AuthProps>('/login',{
-            email: request.email,
-            password: request.password
-        }).then((response) => {
+         try {
+            const response = await api.post<AuthProps>('/login',{
+                email: request.email,
+                password: request.password
+            })
             const data = response.data
-
             setUser(data.user)
             
             setAuthStorage(data)
@@ -60,12 +59,15 @@ export const AuthProvider:React.FC = ({children}) => {
             api.defaults.headers['Authorization'] = `Bearer ${data.token}`
             
             setLoading(false)
-        }).catch(error => {
-            if(!error){
-                return
-            }
+        }catch(error){
+            
             // TODO migrar erro para componente model
+            if (!error.response){
+                return 'Nos desculpe, não foi se conectar com nossos servidores.'
+            }
+
             const response = error.response
+
             let message
             switch (response.status){
                 case 401:
@@ -78,10 +80,9 @@ export const AuthProvider:React.FC = ({children}) => {
                     message = 'Oops, algo de errado não está certo.'
                     break
             }
-            
-            Alert.alert('Erro',message)
-            // console.log(message)
-        })
+            return message
+        }
+
     }
 
     async function logout(){

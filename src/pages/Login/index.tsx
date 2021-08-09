@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { 
     KeyboardAvoidingView, 
     SafeAreaView, 
@@ -27,10 +27,15 @@ import InputPassword from '../../components/InputPassword'
 import Input from '../../components/Input'
 
 import icon from '../../assets/icon.png'
+import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
 
 export function Login() {
     
     const {login} = useAuth()
+
+    const [error,setError] = useState<string>()
+
+    const modalRef = useRef<AlertHandles>(null)
     
     const fieldValidationSchema = yup.object().shape({
         email: yup
@@ -78,7 +83,13 @@ export function Login() {
     }
 
     async function onSubmit(data: any){
-        await login(data)
+        const response = await login(data)
+
+        if (response){
+            setError(response)
+            modalRef.current?.openModal()
+        }
+
     }
 
     function handleForgotPassword(){
@@ -141,6 +152,12 @@ export function Login() {
                         />
                     </View>
 
+                    <CustomAlert
+                        ref={modalRef}
+                        title='Erro na autenticação'
+                        text={error}
+                        type='alert'
+                    />
                 </View>
             </TouchableWithoutFeedback>
 

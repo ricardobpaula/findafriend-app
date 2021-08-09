@@ -11,16 +11,18 @@ import fonts from '../styles/fonts'
 
 interface ButtonProps extends TouchableOpacityProps {
     title: string,
-    transparent: boolean
+    transparent: boolean,
+    flex?: boolean,
 
 }
 
-const Button:React.FC<ButtonProps> = ({title,transparent, ...rest}) =>{
+const Button:React.FC<ButtonProps> = ({title,transparent,flex, ...rest}) =>{
     return (
         <TouchableOpacity 
             style={[
                 styles.container,
-                transparent ? styles.backgroundWhite :  styles.backgroundOrange
+                transparent ? styles.backgroundWhite :  styles.backgroundOrange,
+                flex && styles.flexContainer
             ]}
             activeOpacity={0.7}
             {...rest}
@@ -43,6 +45,10 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    flexContainer: {
+        flex: 1,
+        margin: 5,
     },
     backgroundWhite: {
         backgroundColor: colors.white,

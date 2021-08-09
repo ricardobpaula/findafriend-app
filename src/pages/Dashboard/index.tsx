@@ -11,18 +11,11 @@ import Button from '../../components/Button'
 
 import { useAuth } from '../../contexts/auth'
 
-import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
-
 const Dashboard:React.FC = () => {
     const { logout } = useAuth()
-    const modalRef = useRef<AlertHandles>(null)
     
     function handleLogout() {
         logout()
-    }
-
-    function handleOpenModal(){
-        modalRef.current?.openModal()
     }
 
     return (
@@ -31,10 +24,6 @@ const Dashboard:React.FC = () => {
                 Dashboard
             </Text>
             <Button title='Logout' transparent={true} onPress={handleLogout}/>
-            <Button title='Open Modal' transparent={false} onPress={handleOpenModal}/>
-            <CustomAlert
-            ref={modalRef}
-            />
 
         </View>
     )

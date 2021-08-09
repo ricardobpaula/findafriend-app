@@ -10,7 +10,7 @@ import {
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons'
 
 interface InputPasswordProps extends TextInputProps {
     error?: any
@@ -37,7 +37,7 @@ const InputPassword:React.FC<InputPasswordProps> = ({error,...rest}) => {
                     onFocus={() => setFocus(true)}
                 />
                 <Feather
-                    name={secure ? "eye" : 'eye-off'}
+                    name={secure ? "eye-off" : 'eye'}
                     size={20} color='gray' 
                     onPress={() => setSecure(!secure)}
                 />
