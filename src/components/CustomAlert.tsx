@@ -11,7 +11,9 @@ import {
 
 import Button from './Button'
 
-import coffee from '../assets/coffee.png'
+import LottieView from 'lottie-react-native'
+
+import ErrorDogAnimation from '../assets/lottie/error_dog.json'
 import fonts from '../styles/fonts'
 import colors from '../styles/colors'
 
@@ -30,7 +32,6 @@ const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (pro
     
     function openModal() {
         setVisible(true)
-        
     }
 
     function closeModal() {
@@ -59,11 +60,14 @@ const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (pro
                         {props.text}
                         </Text>
                     </View>
-                    <Image 
-                        source={coffee}
-                        style={styles.image}
-                        resizeMode='contain'
+
+                    <LottieView 
+                        source={ErrorDogAnimation}
+                        autoPlay
+                        loop={true}
+                        style={styles.gif}
                     />
+
                     <View style={styles.footer}>
                         
                         {props.type === 'confirm' &&
@@ -104,7 +108,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center'
     },
-    image: {
+    gif: {
         margin: 10,
         height: Dimensions.get('window').width * 0.7,
     },

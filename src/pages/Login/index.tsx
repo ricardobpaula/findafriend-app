@@ -154,7 +154,7 @@ export function Login() {
 
                     <CustomAlert
                         ref={modalRef}
-                        title='Erro na autenticação'
+                        title='Oops! =('
                         text={error}
                         type='alert'
                     />

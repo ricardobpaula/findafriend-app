@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { 
     useNavigation, 
     useRoute
@@ -31,6 +31,7 @@ import Button from '../../components/Button'
 import InputPassword from '../../components/InputPassword'
 import Input from '../../components/Input'
 import { useAuth } from '../../contexts/auth'
+import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
 
 
 interface Params {
@@ -58,7 +59,9 @@ const SignUp:React.FC = () => {
     const {signIn} = useAuth()
     
     const routes = useRoute()
+    const modalRef = useRef<AlertHandles>(null)
     const [isOng, setIsOng] = useState(false)
+    const [error, setError] = useState<string>()
 
     const fieldValidationSchema = yup.object().shape({
         firstName: yup
@@ -105,7 +108,6 @@ const SignUp:React.FC = () => {
 
     async function onSubmit(user: Form){
         try {
-            //TODO loading component
             
             const request = {
                 firstName: user.firstName,
@@ -117,12 +119,11 @@ const SignUp:React.FC = () => {
                 isOng: isOng
             }
             const { data } = await api.post<Response>('/users',request)
-
             await signIn(data)
             
         }catch(e){
-            //TODO tratar erros 401 e 500 com modal
-            console.log(e)
+            setError('Nos desculpe, não foi se conectar com nossos servidores.')
+            modalRef.current?.openModal()
         }
     }
 
@@ -206,6 +207,12 @@ const SignUp:React.FC = () => {
                             onPress={handleSubmit(onSubmit)}
                             />
                     </View>
+                    <CustomAlert
+                        ref={modalRef}
+                        title='Oops! =('
+                        text={error}
+                        type='alert'
+                    />
                 </View>
             </TouchableWithoutFeedback>
 
