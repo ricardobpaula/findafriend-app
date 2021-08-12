@@ -2,7 +2,7 @@ import React from 'react'
 
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Dashboard from '../pages/Dashboard'
+import TabRoutes from './tab.routes'
 
 const AppStack = createStackNavigator()
 
@@ -10,8 +10,8 @@ const AppRoutes: React.FC = () => {
     return (
         <AppStack.Navigator>
             <AppStack.Screen 
-                name='Dashboard'            
-                component={Dashboard}
+                name='TabRoutes'
+                component={TabRoutes}
             />
         </AppStack.Navigator>
     )

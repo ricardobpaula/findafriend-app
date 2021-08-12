@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React from 'react'
 
 import {
     View,
@@ -11,7 +11,7 @@ import Button from '../../components/Button'
 
 import { useAuth } from '../../contexts/auth'
 
-const Dashboard:React.FC = () => {
+const Explorer:React.FC = () => {
     const { logout } = useAuth()
     
     function handleLogout() {
@@ -21,7 +21,7 @@ const Dashboard:React.FC = () => {
     return (
         <View style={styles.container}>
             <Text>
-                Dashboard
+                Explorer
             </Text>
             <Button title='Logout' transparent={true} onPress={handleLogout}/>
 
@@ -30,4 +30,4 @@ const Dashboard:React.FC = () => {
 
 }
 
-export default Dashboard
+export default Explorer

@@ -1,7 +1,6 @@
-import React, {useContext} from 'react'
+import React from 'react'
 
 import AppLoading from 'expo-app-loading'
-
 
 import AuthRoutes from './auth.routes'
 import AppRoutes from './app.routes'
