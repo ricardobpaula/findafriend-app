@@ -12,6 +12,7 @@ const AppRoutes: React.FC = () => {
             <AppStack.Screen 
                 name='TabRoutes'
                 component={TabRoutes}
+                options={{headerShown: false}}
             />
         </AppStack.Navigator>
     )

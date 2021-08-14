@@ -63,7 +63,7 @@ export const AuthProvider:React.FC = ({children}) => {
             
             // TODO migrar erro para componente model
             if (!error.response){
-                return 'Nos desculpe, não foi se conectar com nossos servidores.'
+                return 'Nos desculpe, não foi possível se conectar aos nossos servidores.'
             }
 
             const response = error.response
@@ -74,7 +74,7 @@ export const AuthProvider:React.FC = ({children}) => {
                     message = 'E-mail/Senha estão incorretos.'
                     break
                 case 500:
-                    message = 'Nos desculpe, não foi se conectar com nossos servidores.'
+                    message = 'Nos desculpe, não foi possível se conectar aos nossos servidores.'
                     break
                 default:
                     message = 'Oops, algo de errado não está certo.'
