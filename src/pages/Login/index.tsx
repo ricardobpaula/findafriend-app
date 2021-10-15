@@ -84,7 +84,6 @@ export function Login() {
 
     async function onSubmit(data: any){
         const response = await login(data)
-
         if (response){
             setError(response)
             modalRef.current?.openModal()

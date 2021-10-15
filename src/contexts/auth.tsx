@@ -4,7 +4,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import api from '../services/api'
 import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
-import { createIconSetFromFontello } from '@expo/vector-icons'
 
 interface AuthProps {
     user: User,
@@ -31,14 +30,13 @@ export const AuthProvider:React.FC = ({children}) => {
     const [user, setUser] = useState<User|undefined>(undefined)
     const [loading, setLoading] = useState(true)
     
-    // Get info async storage
     useEffect(()=>{
         async function loadStorage(){
             const response = await getAuthStorage()
 
             if(response){
                 setUser(response.user)
-                api.defaults.headers['Authorization'] = `Bearer ${response.token}`
+                api.defaults.headers['x-access-token'] = response.token
             }
             setLoading(false)
         }
@@ -46,8 +44,8 @@ export const AuthProvider:React.FC = ({children}) => {
     },[])
 
      async function login(request:Request ){
-         try {
-            const response = await api.post<AuthProps>('/login',{
+        try {
+            const response = await api.post<AuthProps>('/auth/login',{
                 email: request.email,
                 password: request.password
             })
@@ -56,12 +54,10 @@ export const AuthProvider:React.FC = ({children}) => {
             
             setAuthStorage(data)
             
-            api.defaults.headers['Authorization'] = `Bearer ${data.token}`
+            api.defaults.headers['x-access-token'] = data.token
             
             setLoading(false)
-        }catch(error){
-            
-            // TODO migrar erro para componente model
+        }catch(error: any){
             if (!error.response){
                 return 'Nos desculpe, não foi se conectar com nossos servidores.'
             }
@@ -69,6 +65,7 @@ export const AuthProvider:React.FC = ({children}) => {
             const response = error.response
 
             let message
+
             switch (response.status){
                 case 401:
                     message = 'E-mail/Senha estão incorretos.'
@@ -87,6 +84,7 @@ export const AuthProvider:React.FC = ({children}) => {
 
     async function logout(){
         await AsyncStorage.clear()
+        api.defaults.headers['x-access-token'] = undefined
         setUser(undefined)
     }
 

@@ -56,7 +56,7 @@ const SignUp:React.FC = () => {
     
     const navigation = useNavigation()
             
-    const {signIn} = useAuth()
+    const {login} = useAuth()
     
     const routes = useRoute()
     const modalRef = useRef<AlertHandles>(null)
@@ -71,7 +71,8 @@ const SignUp:React.FC = () => {
             .string()
             .required('Sobrenome é obrigatorio'),
         phone: yup
-            .number()
+            .string()
+            .max(11)
             .required('Celular é obrigatorio'),
         email: yup
             .string()
@@ -115,15 +116,28 @@ const SignUp:React.FC = () => {
                 phone:user.phone,
                 email: user.email,
                 password: user.password,
-                isFinding: type === 'adopter' ? true : false,
-                isOng: isOng
+                isFinding: type === 'adopter' ? true : false
             }
-            const { data } = await api.post<Response>('/users',request)
-            await signIn(data)
+            const response = await api.post('/users',request)
             
-        }catch(e){
-            setError('Nos desculpe, não foi se conectar com nossos servidores.')
-            modalRef.current?.openModal()
+            if (response.status === 201) {
+                await login({
+                    email: user.email,
+                    password: user.password
+                })
+            }else {
+                setError('Nos desculpe, não foi se conectar com nossos servidores.')
+                modalRef.current?.openModal()
+            }
+            
+        }catch(e: any){
+            if (e.response.data.status==='error') {
+                setError(e.response.data.message)
+                modalRef.current?.openModal()    
+            }else {
+                setError('Nos desculpe, não foi se conectar com nossos servidores.')
+                modalRef.current?.openModal()
+            }
         }
     }
 
