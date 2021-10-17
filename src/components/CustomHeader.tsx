@@ -8,10 +8,10 @@ import fonts from '../styles/fonts'
 
 import { ButtonBack } from "./ButtonBack"
 
-export default function CustomHeader(title: string):Object {
+export default function CustomHeader():Object {
     return {
         headerBackImage: () => <ButtonBack />,
-        headerTitle: title,
+        headerTitle: '',
         headerStyle: styles.container,
         headerTitleStyle: styles.title
     }
@@ -19,12 +19,14 @@ export default function CustomHeader(title: string):Object {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.orange_dark,
+        backgroundColor: colors.white,
+        elevation: 0,
+        shadowOpacity: 0
     },
     title: {
-        fontSize: 20,
+        fontSize: 23,
         lineHeight: 32,
-        color: colors.white,
+        color: colors.heading,
         fontFamily: fonts.heading
     },
     

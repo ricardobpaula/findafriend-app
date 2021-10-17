@@ -1,29 +1,34 @@
 import { StyleSheet } from 'react-native'
 
-import colors from "../../styles/colors";
-import fonts from "../../styles/fonts";
+import colors from "../../styles/colors"
+import fonts from "../../styles/fonts"
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        width: '100%',
-        alignItems: 'center',
-        marginTop: 10,
+        flex: 1
     },
     content: {
         flex: 1,
-        width: '100%',
+        width: '100%'
+    },
+    header: {
+        paddingHorizontal: 20,
+        marginBottom: 20
+    },
+    title: {
+        fontFamily: fonts.heading,
+        fontSize: 25,
+        color: colors.heading
+    },
+    subTitle: {
+        fontFamily: fonts.heading,
+        fontSize: 20,
+        color: colors.heading
     },
     body: {
-        flex:1 ,
         alignItems: 'center',
         width: '100%',
         paddingHorizontal: 10,
-    },
-    checkBoxContainer: {
-        width: '100%',
-        flexDirection:'row', 
-        alignItems: 'center',
     },
     termContainer: {
         marginTop: 10,
@@ -46,8 +51,8 @@ const styles = StyleSheet.create({
     footer: {
         width: '100%',
         paddingHorizontal: 20,
-    },
-    
+        paddingBottom: 10
+    }
 })
 
 export default styles

@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 40,
     },
-    ongButtonContainer: {
+    loginButtonContainer: {
         alignItems: 'center',
         padding: 10,
        
     },
-    ongButton: {
+    loginButton: {
         textDecorationLine: 'underline',
         fontFamily: fonts.heading,
         color: colors.heading,

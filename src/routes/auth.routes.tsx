@@ -29,12 +29,12 @@ const AuthRoutes: React.FC = () => {
             <AuthStack.Screen
                 name='SignUp'
                 component={SignUp}
-                options={CustomHeader('Vamos começar')}
+                options={CustomHeader()}
             />
             <AuthStack.Screen
                 name='Login'
                 component={Login}
-                options={CustomHeader('Login')}
+                options={CustomHeader()}
             />
         </AuthStack.Navigator>
     )

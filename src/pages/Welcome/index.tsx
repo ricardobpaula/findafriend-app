@@ -18,8 +18,8 @@ import friends from '../../assets/friends.png'
 const Welcome:React.FC = () => {
     const navigation = useNavigation()
 
-    function handleSignUp(type:'adopter'|'donor'){
-        navigation.navigate('SignUp', {type})
+    function handleSignUp(){
+        navigation.navigate('SignUp')
     }
 
     function handleLogin(){
@@ -43,21 +43,16 @@ const Welcome:React.FC = () => {
                 <View style={styles.footer}>
 
                     <Button 
-                        title='Quero Adotar'
+                        title='Vamos começar'
                         transparent={false}
-                        onPress={()=>handleSignUp('adopter')}
-                    ></Button>
-                    <Button
-                        title='Quero Doar'
-                        transparent={true}
-                        onPress={()=>handleSignUp('donor')}
+                        onPress={()=>handleSignUp()}
                     ></Button>
 
                     <TouchableOpacity 
-                    style={styles.ongButtonContainer}
+                    style={styles.loginButtonContainer}
                     onPress={handleLogin}
                     >
-                        <Text style={styles.ongButton}>Já possui uma conta?</Text>
+                        <Text style={styles.loginButton}>Já possui uma conta?</Text>
                     </TouchableOpacity>
 
                 </View>                

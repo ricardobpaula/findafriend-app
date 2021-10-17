@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { 
-    KeyboardAvoidingView, 
     SafeAreaView, 
     View,
     Keyboard,
@@ -26,7 +25,6 @@ import Button from '../../components/Button'
 import InputPassword from '../../components/InputPassword'
 import Input from '../../components/Input'
 
-import icon from '../../assets/icon.png'
 import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
 
 export function Login() {
@@ -44,6 +42,7 @@ export function Login() {
             .email('E-mail invalido'),
         password: yup
             .string()
+            .min(6)
             .required('Senha é obrigatoria')
     })
     
@@ -69,7 +68,7 @@ export function Login() {
     function keyboardDidShow(){
         Animated.timing(keyBoardOpen,{
             toValue: width * 0.2,
-            duration: 200,
+            duration: 500,
             useNativeDriver:false
         }).start()
     }
@@ -77,7 +76,7 @@ export function Login() {
     function keyboardDidHide(){
         Animated.timing(keyBoardOpen,{
             toValue: width * 0.5,
-            duration: 200,
+            duration: 500,
             useNativeDriver:false
         }).start()
     }
@@ -97,27 +96,17 @@ export function Login() {
 
     return (
         <SafeAreaView style={styles.container}>
-            
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.content}
-                >   
-                    <View style={styles.header}>
-                        <Text style={styles.title}> Bem vindo de volta</Text>
-                    </View>
-                    <View  style={styles.body}>
-                        <KeyboardAvoidingView
-                            style={styles.body}
-                            behavior='padding'
-                        >
-                            <Animated.Image
-                                source={icon}
-                                style={{
-                                    height: keyBoardOpen,
-                                    marginBottom: 10
-                                }}
-                                resizeMode='contain'
-
-                            />
+                <TouchableWithoutFeedback 
+                    onPress={Keyboard.dismiss}
+                    style={styles.container}
+                >
+                    <View style={styles.content}
+                    >
+                        <View style={styles.header}>
+                            <Text style={styles.title}>Hey,</Text>
+                            <Text style={styles.subTitle}>Aproveite agora!</Text>
+                        </View>
+                        <View style={styles.body}>
                             <Input 
                                 placeholder='E-mail'
                                 autoCapitalize='none'
@@ -125,41 +114,34 @@ export function Login() {
                                 onChangeText={text=>setValue('email',text)}
                                 error={errors?.email}
                             />
-
                             <InputPassword 
                                 placeholder='Senha'
                                 onChangeText={text=>setValue('password',text)}
                                 error={errors?.password}
                             />
-
-                            <TouchableOpacity
+                        </View>
+                        <View style={styles.footer}>
+                            <TouchableOpacity 
                                 style={styles.forgotPassword}
                                 onPress={handleForgotPassword}
                                 activeOpacity={0.7}
                             >
-                                <Text style={styles.text}>Esqueci minha senha</Text>
-                            
+                                <Text style={styles.text}>Esqueceu sua senha?</Text>
                             </TouchableOpacity>
-                            
-                        </KeyboardAvoidingView>
-                    </View>
-                    <View style={styles.footer}>
-                        <Button 
-                            title='Confirmar'
-                            transparent={false}
-                            onPress={handleSubmit(onSubmit)}
-                        />
-                    </View>
-
-                    <CustomAlert
+                            <Button 
+                                title='Entrar'
+                                transparent={false}
+                                onPress={handleSubmit(onSubmit)}
+                            />
+                        </View>
+                        <CustomAlert
                         ref={modalRef}
                         title='Oops! =('
                         text={error}
                         type='alert'
                     />
-                </View>
-            </TouchableWithoutFeedback>
-
+                    </View>
+                </TouchableWithoutFeedback>
         </SafeAreaView>
     )
 }

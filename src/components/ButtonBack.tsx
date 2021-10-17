@@ -1,13 +1,13 @@
 import React from 'react'
-import { Feather } from '@expo/vector-icons'
+import { SimpleLineIcons } from '@expo/vector-icons'
 import colors from '../styles/colors'
 
 export const ButtonBack:React.FC = () =>{
     return (
-        <Feather 
+        <SimpleLineIcons
             name={'arrow-left'}
-            size={28} 
-            color={colors.white}
+            size={20} 
+            color={colors.heading}
         />
     )
 }

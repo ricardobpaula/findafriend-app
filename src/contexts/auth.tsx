@@ -59,19 +59,18 @@ export const AuthProvider:React.FC = ({children}) => {
             setLoading(false)
         }catch(error: any){
             if (!error.response){
-                return 'Nos desculpe, não foi se conectar com nossos servidores.'
+                return 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
             }
 
             const response = error.response
 
             let message
-
             switch (response.status){
-                case 401:
+                case 400:
                     message = 'E-mail/Senha estão incorretos.'
                     break
                 case 500:
-                    message = 'Nos desculpe, não foi se conectar com nossos servidores.'
+                    message = 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
                     break
                 default:
                     message = 'Oops, algo de errado não está certo.'
@@ -79,7 +78,6 @@ export const AuthProvider:React.FC = ({children}) => {
             }
             return message
         }
-
     }
 
     async function logout(){

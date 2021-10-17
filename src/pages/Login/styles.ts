@@ -1,44 +1,44 @@
 import {StyleSheet} from 'react-native'
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import colors from "../../styles/colors";
 import fonts from "../../styles/fonts";
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        width: '100%',
+        flex: 1
     },
     content: {
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
         flex: 1,
         width: '100%',
+        justifyContent: 'center'
     },
     header: {
-        marginBottom: 50,
-        paddingTop: 20
+        paddingHorizontal: 20,
+        marginBottom: 20
     },
     body: {
         alignItems: 'center',
         width: '100%',
-        paddingHorizontal: 10,
+        paddingHorizontal: 10
     },
     title: {
-        fontSize: 28,
-        textAlign: 'center',
-        color: colors.heading,
-        marginTop: getStatusBarHeight(),
         fontFamily: fonts.heading,
-        lineHeight: 34
+        fontSize: 25,
+        color: colors.heading
+    },
+    subTitle: {
+        fontFamily: fonts.heading,
+        fontSize: 20,
+        color: colors.heading
     },
     footer: {
         width: '100%',
-        paddingVertical: 40,
-        paddingHorizontal: 20,
+        paddingVertical: 20,
+        paddingHorizontal: 20
     },
     forgotPassword: {
         width: '100%',
         alignItems: 'center',
+        paddingBottom: 20
     },
     text: {
         fontSize: 15,

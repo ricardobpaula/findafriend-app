@@ -4,7 +4,6 @@ import {
     useRoute
 } from '@react-navigation/native'
 import { 
-    KeyboardAvoidingView, 
     SafeAreaView, 
     Text, 
     View,
@@ -12,10 +11,8 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity,
     Linking,
-    ScrollView,
+    ScrollView
 } from 'react-native'
-
-import { CheckBox } from 'react-native-elements'
 
 import * as yup from 'yup'
 
@@ -25,18 +22,12 @@ import { useForm } from 'react-hook-form'
 import api from '../../services/api'
 
 import styles from './styles'
-import colors from '../../styles/colors'
 
 import Button from '../../components/Button'
 import InputPassword from '../../components/InputPassword'
 import Input from '../../components/Input'
 import { useAuth } from '../../contexts/auth'
 import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
-
-
-interface Params {
-    type: 'adopter'|'donor'
-}
 
 interface Form {
     firstName: string,
@@ -47,11 +38,6 @@ interface Form {
     confirmPassword: string
 }
 
-interface Response {
-    user: User,
-    token: string
-}
-
 const SignUp:React.FC = () => {
     
     const navigation = useNavigation()
@@ -60,7 +46,6 @@ const SignUp:React.FC = () => {
     
     const routes = useRoute()
     const modalRef = useRef<AlertHandles>(null)
-    const [isOng, setIsOng] = useState(false)
     const [error, setError] = useState<string>()
 
     const fieldValidationSchema = yup.object().shape({
@@ -92,8 +77,6 @@ const SignUp:React.FC = () => {
         resolver: yupResolver(fieldValidationSchema)
     })
 
-    const {type} = routes.params as Params
-    
     function handleOpenTerm(){
         // Linking.openURL('http://google.com')
     }
@@ -115,8 +98,7 @@ const SignUp:React.FC = () => {
                 lastName: user.lastName,
                 phone:user.phone,
                 email: user.email,
-                password: user.password,
-                isFinding: type === 'adopter' ? true : false
+                password: user.password
             }
             const response = await api.post('/users',request)
             
@@ -143,25 +125,23 @@ const SignUp:React.FC = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            
-            
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
                 >
+                    <View style={styles.header}>
+                        <Text style={styles.title}>Hey,</Text>
+                        <Text style={styles.subTitle}>Vamos criar sua conta?</Text>
+                    </View>
                     <ScrollView
                         keyboardShouldPersistTaps='handled'
                     >
-                        <View  style={styles.body}>
-                            <KeyboardAvoidingView
-                                style={styles.body}
-                                behavior='padding'
-                            >
+                        <View style={styles.body}>
+                            <Input 
+                                placeholder='Nome'
+                                onChangeText={text=>setValue('firstName',text)}
+                                error={errors?.firstName}
+                            />
                                 <Input 
-                                    placeholder='Nome'
-                                    onChangeText={text=>setValue('firstName',text)}
-                                    error={errors?.firstName}
-                                />
-                                 <Input 
                                     placeholder='Sobrenome'
                                     onChangeText={text=>setValue('lastName',text)}
                                     error={errors?.lastName}
@@ -171,7 +151,7 @@ const SignUp:React.FC = () => {
                                     keyboardType='phone-pad'
                                     onChangeText={text=>setValue('phone',text)}
                                     error={errors?.phone}
-                                />
+                                    />
                                 <Input 
                                     placeholder='E-mail'
                                     autoCapitalize='none'
@@ -189,19 +169,6 @@ const SignUp:React.FC = () => {
                                     onChangeText={text=>setValue('confirmPassword',text)}
                                     error={errors?.confirmPassword}
                                 />
-                                
-                                <TouchableOpacity style={styles.checkBoxContainer}
-                                    onPress={() => setIsOng(!isOng)}
-                                    activeOpacity={0.7}
-                                >
-                                    <CheckBox 
-                                        checked={isOng}
-                                        onPress={() => setIsOng(!isOng)}
-                                        containerStyle={{paddingHorizontal: 0}}
-                                        checkedColor={colors.orange_dark}
-                                    />
-                                    <Text style={styles.text}>Quero receber notificações de denuncias</Text>
-                                </TouchableOpacity>
 
                                 <TouchableOpacity 
                                     style={styles.termContainer}
@@ -211,15 +178,14 @@ const SignUp:React.FC = () => {
                                     <Text style={styles.text}>Ao continuar, você concorda com os</Text>
                                     <Text style={styles.link}>Termos e Condições de Uso</Text>
                                 </TouchableOpacity>
-                            </KeyboardAvoidingView>
                         </View>
                     </ScrollView>
                     <View style={styles.footer}>
                         <Button 
-                            title='Confirmar'
+                            title='Cadastrar'
                             transparent={false}
                             onPress={handleSubmit(onSubmit)}
-                            />
+                        />
                     </View>
                     <CustomAlert
                         ref={modalRef}
@@ -229,7 +195,6 @@ const SignUp:React.FC = () => {
                     />
                 </View>
             </TouchableWithoutFeedback>
-
         </SafeAreaView>
     )
 }
