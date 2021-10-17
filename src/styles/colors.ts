@@ -7,7 +7,7 @@ export default {
   body_dark: '#96460b',
   body_light: '#FF9100',
 
-  background: '#FF9E00',
+  background: '#fff7eb',
   statusBar: '#96460b',
   
   shape: '#F0F0F0',
