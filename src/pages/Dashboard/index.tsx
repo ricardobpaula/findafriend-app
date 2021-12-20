@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
     View,
 } from 'react-native'
@@ -23,20 +22,20 @@ const Dashboard:React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false)
   
   async function fetchPets(){
-    const { data } = await api.get<PetProps[]>(`pets?adopted=false&offset=${offset}&limit=5`)
-
+    const limit = 10
+    const { data } = await api.get<PetProps[]>(`pets?adopted=false&offset=${offset}&limit=${limit}`)
     if (!data){
       return setLoading(true)
     }
 
-    if(offset/5 > 0){
+    if(offset/ limit > 0){
       setPlants(oldValue=>[...oldValue,...data])
     }else {
       setPlants(data)
     }
 
     if(data.length > 0){
-      setOffset(oldValue=>oldValue+5)
+      setOffset(oldValue=>oldValue + limit)
     }
 
     setLoadingMore(false)
@@ -44,10 +43,9 @@ const Dashboard:React.FC = () => {
   }
 
   function handleFetchMore(distance: number) {
-    if(distance<0){
+    if(distance < -1){
       return
     }
-
     setLoadingMore(true)
     fetchPets()
   }
@@ -77,7 +75,7 @@ const Dashboard:React.FC = () => {
                     handleFetchMore(distanceFromEnd)
                   }}
                   ListFooterComponent={ (
-                    !loadingMore ? 
+                    loadingMore ? 
                       <ActivityIndicator
                         color={colors.black}
                         size={25}
