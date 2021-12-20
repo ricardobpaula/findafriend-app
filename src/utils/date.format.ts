@@ -16,7 +16,7 @@ export default class DateFormat {
         return `${dd} de ${mouths[mm-1]} de ${yyyy}`
     }
 
-    private static  getMouths(){
+    private static getMouths(){
         return [
             'Janeiro',
             'Fevereiro',

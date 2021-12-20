@@ -12,6 +12,9 @@ const AppRoutes: React.FC = () => {
             <AppStack.Screen 
                 name='Dashboard'            
                 component={Dashboard}
+                options={{
+                    headerShown: false
+                }}
             />
         </AppStack.Navigator>
     )

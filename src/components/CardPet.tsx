@@ -1,11 +1,14 @@
 import React from 'react'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Alert, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 import DateFormat from '../utils/date.format'
 
-interface PetProps {
-    data: {
+export interface Photo {
+    path: string
+}
+
+export interface PetProps {
         id: number,
         description: string,
         size: string,
@@ -15,15 +18,18 @@ interface PetProps {
             id: number,
             name: string
         },
-        photos: {url: string}[]
-    }
+        photos: Photo[]
 }
 
-const CardPet:React.FC<PetProps> = ({data}) => {
+interface ComponentProps {
+    data: PetProps
+}
+
+const CardPet:React.FC<ComponentProps> = ({data}) => {
     return (
         <View style={styles.container}>
-            <Image 
-                source={{uri: data.photos[0].url}}
+            <Image
+                source={{uri: data.photos[0].path}}
                 style={styles.photo}
                 resizeMode='cover'
             />
@@ -42,12 +48,12 @@ const CardPet:React.FC<PetProps> = ({data}) => {
                 <Text 
                 style={[styles.text, styles.date]}
                 >
-                    {DateFormat.dateWithMouth(data.createdAt)}
+                    {DateFormat.dateWithMouth(new Date(data.createdAt))}
                 </Text>
             </View>
         </View>
     )
-            
+
 }
 
 export default CardPet
