@@ -10,7 +10,8 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 10,
         paddingTop: 10,
-        marginTop: 10
+        marginTop: 10,
+        backgroundColor: colors.white
     },
     loading: {
         padding: 10

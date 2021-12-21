@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 import DateFormat from '../utils/date.format'

@@ -8,7 +8,7 @@ import {
 
 import styles from './styles'
 
-import CardPet, { PetProps } from '../../components/CardPet'
+import CardPetCarousel, { PetProps } from '../../components/CardPetCarousel'
 import Load from '../../components/Load'
 
 import api from '../../services/api'
@@ -43,11 +43,14 @@ const Dashboard:React.FC = () => {
   }
 
   function handleFetchMore(distance: number) {
+    return
+    /*
     if(distance < -1){
       return
     }
     setLoadingMore(true)
     fetchPets()
+    */
   }
 
   useEffect(()=>{
@@ -66,7 +69,7 @@ const Dashboard:React.FC = () => {
                   showsVerticalScrollIndicator={false}
                   keyExtractor={(item)=>String(item.id)}
                   renderItem={({item}) => (
-                    <CardPet
+                    <CardPetCarousel
                       data={item}
                     />
                   )}

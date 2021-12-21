@@ -6,9 +6,10 @@ export default {
   heading: '#ba570d',
   body_dark: '#96460b',
   body_light: '#FF9100',
+  text_gray: '#686868',
 
   background: '#fff7eb',
-  statusBar: '#96460b',
+  status_bar: '#96460b',
   
   shape: '#F0F0F0',
   white: '#FFFFFF',

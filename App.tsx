@@ -32,7 +32,7 @@ const App:React.FC = () => {
     <NavigationContainer>
       <AuthProvider>
         <StatusBar
-          backgroundColor={colors.statusBar}
+          backgroundColor={colors.status_bar}
         />
         <Routes/>
       </AuthProvider>
