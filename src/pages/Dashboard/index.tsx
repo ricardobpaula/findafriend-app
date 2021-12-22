@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import {
   ActivityIndicator,
   FlatList,
+    SafeAreaView,
     View,
 } from 'react-native'
 
@@ -22,7 +23,7 @@ const Dashboard:React.FC = () => {
   const [loadingMore, setLoadingMore] = useState(false)
   
   async function fetchPets(){
-    const limit = 10
+    const limit = 2
     const { data } = await api.get<PetProps[]>(`pets?adopted=false&offset=${offset}&limit=${limit}`)
     if (!data){
       return setLoading(true)
@@ -43,14 +44,11 @@ const Dashboard:React.FC = () => {
   }
 
   function handleFetchMore(distance: number) {
-    return
-    /*
     if(distance < -1){
       return
     }
     setLoadingMore(true)
     fetchPets()
-    */
   }
 
   useEffect(()=>{
@@ -62,7 +60,7 @@ const Dashboard:React.FC = () => {
   }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <FlatList
                   data={plants}
@@ -90,7 +88,7 @@ const Dashboard:React.FC = () => {
                 >
                 </FlatList>
             </View>
-        </View>
+        </SafeAreaView>
     )
 
 }

@@ -1,11 +1,13 @@
 import React from 'react'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
+import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 import DateFormat from '../utils/date.format'
+import CardImage from './CardImage'
 
 export interface Photo {
-    path: string
+    path: string,
+    id: number,
 }
 
 export interface PetProps {
@@ -25,14 +27,50 @@ interface ComponentProps {
     data: PetProps
 }
 
+
+const { width } = Dimensions.get('window')
+
 const CardPetCarousel:React.FC<ComponentProps> = ({data}) => {
+
+    const scrollX = React.useRef(new Animated.Value(0)).current
+
     return (
         <View style={styles.container}>
-            <Image
-                source={{uri: data.photos[0].path}}
-                style={styles.photo}
-                resizeMode='cover'
+            <Animated.FlatList
+                data={data.photos}
+                keyExtractor={(photo) => photo.id.toString()}
+                horizontal
+                pagingEnabled
+                scrollEventThrottle={32}
+                showsHorizontalScrollIndicator={false}
+                onScroll={Animated.event(
+                    [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                    {useNativeDriver: true}
+                    )}
+                renderItem={({item}) => (
+                    <View style={styles.carousel}>
+                        <CardImage 
+                            data={item}
+                        />
+                    </View>
+                )
+                }
             />
+            <View style={styles.pagination}>
+                {data.photos.map((_,index)=> {
+                    const inputRange = [(index - 1) * width, index * width, (index + 1) * width]
+                    const scale = scrollX.interpolate({
+                        inputRange,
+                        outputRange: [0.8,1.4,0.8],
+                        extrapolate: 'clamp'
+                    })
+                    return (<Animated.View
+                            key={`indicator-${index}`}
+                            style={[styles.dot,{ transform: [ { scale }]}]}
+                        />)
+
+                })}
+            </View>
             <View style={styles.infoContainer}>
                 <View style={styles.row}>
                     <Text 
@@ -68,13 +106,7 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         marginTop: 10,
     },
-    photo: {
-        alignSelf: 'center',
-        height: Dimensions.get('window').width * 0.9,
-        width: Dimensions.get('window').width * 0.9,
-        borderRadius: Dimensions.get('window').width * 0.05,
-        marginBottom: 5,
-    },
+    
     infoContainer: {
         flex: 1,
     },
@@ -83,6 +115,25 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    carousel: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    pagination: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width,
+        bottom: width * 0.2,
+    },
+    dot: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: colors.shape,
+        marginRight: 10
     },
     text: {
         fontSize: 17,
