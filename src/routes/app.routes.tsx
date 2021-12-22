@@ -1,22 +1,37 @@
 import React from 'react'
 
-import { createStackNavigator } from '@react-navigation/stack'
+import { MaterialIcons } from '@expo/vector-icons'
+
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Dashboard from '../pages/Dashboard'
+import Profile from '../pages/Profile'
 
-const AppStack = createStackNavigator()
+const Tab = createBottomTabNavigator()
 
 const AppRoutes: React.FC = () => {
     return (
-        <AppStack.Navigator>
-            <AppStack.Screen 
+        <Tab.Navigator>
+            <Tab.Screen 
                 name='Dashboard'            
                 component={Dashboard}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    tabBarIcon: () => <MaterialIcons name='pets' size={20} />,
+                    title: 'Pets'
                 }}
             />
-        </AppStack.Navigator>
+
+            <Tab.Screen
+                name='Profile'
+                component={Profile}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: () => <MaterialIcons name='person' size={20} />,
+                    title: 'Perfil'
+                }}
+            />
+        </Tab.Navigator>
     )
 }
 
