@@ -5,26 +5,8 @@ import fonts from '../styles/fonts'
 import DateFormat from '../utils/date.format'
 import CardImage from './CardImage'
 
-export interface Photo {
-    path: string,
-    id: number,
-}
-
-export interface PetProps {
-        id: number,
-        description: string,
-        size: string,
-        adopted: boolean,
-        createdAt: Date,
-        specie: {
-            id: number,
-            name: string
-        },
-        photos: Photo[]
-}
-
 interface ComponentProps {
-    data: PetProps
+    data: Pet
 }
 
 

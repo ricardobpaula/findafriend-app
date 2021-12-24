@@ -9,14 +9,14 @@ import {
 
 import styles from './styles'
 
-import CardPetCarousel, { PetProps } from '../../components/CardPetCarousel'
+import CardPetCarousel from '../../components/CardPetCarousel'
 import Load from '../../components/Load'
 
 import api from '../../services/api'
 import colors from '../../styles/colors'
 
 const Dashboard:React.FC = () => {
-  const [plants, setPlants] = useState<PetProps[]>([])
+  const [pets, setPets] = useState<Pet[]>([])
   
   const [offset, setOffset] = useState(0)
   const [loading, setLoading] = useState(true)
@@ -24,15 +24,15 @@ const Dashboard:React.FC = () => {
   
   async function fetchPets(){
     const limit = 2
-    const { data } = await api.get<PetProps[]>(`pets?adopted=false&offset=${offset}&limit=${limit}`)
+    const { data } = await api.get<Pet[]>(`pets?adopted=false&offset=${offset}&limit=${limit}`)
     if (!data){
       return setLoading(true)
     }
 
     if(offset/ limit > 0){
-      setPlants(oldValue=>[...oldValue,...data])
+      setPets(oldValue=>[...oldValue,...data])
     }else {
-      setPlants(data)
+      setPets(data)
     }
 
     if(data.length > 0){
@@ -63,7 +63,7 @@ const Dashboard:React.FC = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
                 <FlatList
-                  data={plants}
+                  data={pets}
                   showsVerticalScrollIndicator={false}
                   keyExtractor={(item)=>String(item.id)}
                   renderItem={({item}) => (

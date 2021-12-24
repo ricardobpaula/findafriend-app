@@ -11,12 +11,12 @@ const AuthStack = createStackNavigator()
 
 const AuthRoutes: React.FC = () => {
     return (
-        <AuthStack.Navigator
-            headerMode='screen'
+        <AuthStack.Navigator           
             screenOptions={{
                 cardStyle:{
                     backgroundColor: colors.white
                 },
+                headerMode:'screen'
             }}
         >
             <AuthStack.Screen

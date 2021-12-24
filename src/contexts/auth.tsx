@@ -51,7 +51,6 @@ export const AuthProvider:React.FC = ({children}) => {
             })
             const data = response.data
             setUser(data.user)
-            
             setAuthStorage(data)
             
             api.defaults.headers['x-access-token'] = data.token
