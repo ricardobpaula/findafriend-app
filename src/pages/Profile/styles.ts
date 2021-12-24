@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         backgroundColor: colors.orange_light,
+        borderBottomRightRadius: height * 0.1,
+        borderBottomLeftRadius: height * 0.1,
         width: '100%'
     },
     bottomSize: {
@@ -40,10 +42,13 @@ const styles = StyleSheet.create({
         fontFamily: fonts.heading,
         fontSize: 28,
         color: colors.white,
+        textAlign: 'center'
+        
     },
     since: {
         fontFamily: fonts.complement,
         fontSize: 15,
+        textAlign: 'center'
     },
     edit: {
         width: width * 0.6

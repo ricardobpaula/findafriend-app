@@ -34,22 +34,25 @@ const CardPet:React.FC<ComponentProps> = ({data}) => {
                 resizeMode='cover'
             />
             <View style={styles.infoContainer}>
-                <Text style={styles.text}>Aproximadamente à 10 KM</Text>
-                <Text 
-                    style={[styles.text, styles.specie]}
-                >
-                    {data.specie.name}
-                </Text>
-                <Text 
-                style={[styles.text, styles.size]}
-                >
-                    Porte: {data.size}
-                </Text>
-                <Text 
-                style={[styles.text, styles.date]}
-                >
-                    {DateFormat.dateWithMouth(new Date(data.createdAt))}
-                </Text>
+                <View>
+                    <Text 
+                        style={[styles.text, styles.specie]}
+                    >
+                        Cachorro
+                    </Text>
+                    <Text 
+                    style={[styles.text, styles.size]}
+                    >
+                        Pequeno
+                    </Text>
+                </View>
+                <View>
+                    <Text 
+                    style={[styles.text, styles.date]}
+                    >
+                        {DateFormat.dateWithMouth(new Date(data.createdAt))}
+                    </Text>
+                </View>
             </View>
         </View>
     )
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         alignItems: 'center',
-        maxHeight: Dimensions.get('window').width * 0.4,
+        maxHeight: Dimensions.get('window').width * 0.2,
         paddingHorizontal: 10,
         paddingVertical: 10,
         borderRadius: 5,
@@ -79,14 +82,16 @@ const styles = StyleSheet.create({
         }
     },
     photo: {
-        height: Dimensions.get('window').width * 0.3,
-        width: Dimensions.get('window').width * 0.3,
+        height: Dimensions.get('window').width * 0.15,
+        width: Dimensions.get('window').width * 0.15,
         borderRadius: 100,
         
     },
     infoContainer: {
         flex: 1,
         marginHorizontal: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     text: {
         fontSize: 15,

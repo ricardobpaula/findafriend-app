@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { SafeAreaView, View, Text, Image, Dimensions, FlatList, ActivityIndicator } from 'react-native'
+import { SafeAreaView, View, Text, Image, Dimensions, FlatList, ActivityIndicator, ScrollView } from 'react-native'
 import Button from '../../components/Button'
 import CardPet from '../../components/CardPet'
 
@@ -26,7 +26,6 @@ const Profile:React.FC = () => {
             return setLoading(true)
         }
         setProfile(data.user)
-        // console.log(!!profile)
         
     }
 
@@ -35,7 +34,7 @@ const Profile:React.FC = () => {
             return setLoading(true)
         }
         
-        const limit = 2
+        const limit = 10
         const { data } = await api.get<Pet[]>(`pets?owner=${profile?.id}&offset=${offset}&limit=${limit}`)
         if (!data){
         return setLoading(true)
@@ -78,61 +77,61 @@ const Profile:React.FC = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <View 
-                    style={styles.topSize}
-                >
-                    <Image 
-                        source={{uri: profile?.avatar?.path}}
-                        resizeMode='cover'
-                        style={styles.avatar}
-                    />
-                    <View>
-                        <Text style={styles.name}> 
-                            {`${profile?.firstName} ${profile?.lastName}`} 
-                        </Text>
-                        { profile?.since ?
-                            (
-                                <Text style={styles.since}> 
-                                    {`Desde: ${DateFormat.dateWithMouth(new Date(profile?.since))}`} 
-                                </Text>
-                            )
-                            : <></>
-                        }
+                    <View 
+                        style={styles.topSize}
+                    >
+                        <Image 
+                            source={{uri: profile?.avatar?.path}}
+                            resizeMode='cover'
+                            style={styles.avatar}
+                        />
+                        <View>
+                            <Text style={styles.name}> 
+                                {`${profile?.firstName} ${profile?.lastName}`} 
+                            </Text>
+                            { profile?.since ?
+                                (
+                                    <Text style={styles.since}> 
+                                        {`Membro desde: ${DateFormat.mouthYear(new Date(profile?.since))}`} 
+                                    </Text>
+                                )
+                                : <></>
+                            }
+                        </View>
+                        <View style={styles.edit}>
+                            <Button
+                                title='Editar Perfil'
+                                transparent={true}
+                            />
+                        </View>
                     </View>
-                    <View style={styles.edit}>
-                        <Button
-                            title='Editar Perfil'
-                            transparent={true}
+                    <View style={styles.bottomSize}>
+                        <Text style={styles.title}>
+                            Meus Pets:
+                        </Text>
+                        <FlatList
+                            data={pets}
+                            showsVerticalScrollIndicator={false}
+                            keyExtractor={(item)=>String(item.id)}
+                            onEndReachedThreshold={0.001}
+                            onEndReached={({distanceFromEnd}) => {
+                                handleFetchMore(distanceFromEnd)
+                            }}
+                            ListFooterComponent={ (
+                                loadingMore ? 
+                                <ActivityIndicator
+                                    color={colors.black}
+                                    size={25}
+                                    style={styles.loading}
+                                />
+                                :
+                                <></>
+                            ) }
+                            renderItem={({item})=> (
+                                <CardPet data={item}/>
+                            )}
                         />
                     </View>
-                </View>
-                <View style={styles.bottomSize}>
-                    <Text style={styles.title}>
-                        Meus Pets:
-                    </Text>
-                    <FlatList
-                        data={pets}
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={(item)=>String(item.id)}
-                        onEndReachedThreshold={0.001}
-                        onEndReached={({distanceFromEnd}) => {
-                            handleFetchMore(distanceFromEnd)
-                        }}
-                        ListFooterComponent={ (
-                            loadingMore ? 
-                              <ActivityIndicator
-                                color={colors.black}
-                                size={25}
-                                style={styles.loading}
-                              />
-                            :
-                              <></>
-                          ) }
-                        renderItem={({item})=> (
-                            <CardPet data={item}/>
-                        )}
-                    />
-                </View>
             </View>
         </SafeAreaView>)
 }

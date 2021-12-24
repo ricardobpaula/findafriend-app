@@ -16,6 +16,13 @@ export default class DateFormat {
         return `${dd} de ${mouths[mm-1]} de ${yyyy}`
     }
 
+    static mouthYear(date: Date): string {
+        const mm = date.getMonth()
+        const yyyy = date.getFullYear().toString()
+        const mouths = this.getMouths()
+        return `${mouths[mm-1]} de ${yyyy}`
+    }
+
     private static getMouths(){
         return [
             'Janeiro',
