@@ -24,6 +24,15 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: height * 0.1,
         width: '100%'
     },
+    logout: {
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        top: 50,
+        width: width,
+        paddingRight: 20
+    },
     bottomSize: {
         flex: 1,
         paddingTop: 10,

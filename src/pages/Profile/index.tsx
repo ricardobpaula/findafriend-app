@@ -1,6 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import { Feather } from '@expo/vector-icons'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { SafeAreaView, View, Text, Image, Dimensions, FlatList, ActivityIndicator, ScrollView } from 'react-native'
+import { 
+    SafeAreaView,
+    View,
+    Text,
+    Image,
+    FlatList,
+    ActivityIndicator,
+    TouchableOpacity 
+} from 'react-native'
 import Button from '../../components/Button'
 import CardPet from '../../components/CardPet'
 
@@ -11,6 +20,8 @@ import colors from '../../styles/colors'
 import { getAuthStorage } from '../../utils/auth.storage'
 import DateFormat from '../../utils/date.format'
 
+import { useAuth } from '../../contexts/auth'
+
 import styles from './styles'
 const Profile:React.FC = () => {
 
@@ -19,6 +30,7 @@ const Profile:React.FC = () => {
     const [pets, setPets] = useState<Pet[]>([])
     const [offset, setOffset] = useState(0)
     const [loadingMore, setLoadingMore] = useState(false)
+    const {logout} = useAuth()
 
     async function fetchUser(){
         const data = await getAuthStorage()
@@ -62,6 +74,13 @@ const Profile:React.FC = () => {
     fetchPets()
   }
 
+  function handleUpdateAvatar(){
+  }
+
+  function handleLogout(){
+       logout()
+  }
+
     useEffect(() => {
         fetchUser()
     },[])
@@ -80,11 +99,16 @@ const Profile:React.FC = () => {
                     <View 
                         style={styles.topSize}
                     >
-                        <Image 
-                            source={{uri: profile?.avatar?.path}}
-                            resizeMode='cover'
-                            style={styles.avatar}
-                        />
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            onPress={handleUpdateAvatar}
+                        >
+                            <Image 
+                                source={{uri: profile?.avatar?.path}}
+                                resizeMode='cover'
+                                style={styles.avatar}
+                            />
+                        </TouchableOpacity>
                         <View>
                             <Text style={styles.name}> 
                                 {`${profile?.firstName} ${profile?.lastName}`} 
@@ -104,6 +128,16 @@ const Profile:React.FC = () => {
                                 transparent={true}
                             />
                         </View>
+                        <TouchableOpacity
+                                activeOpacity={0.7}
+                                onPress={handleLogout}
+                                style={styles.logout}
+                            >
+                                <Feather
+                                    name='log-out'
+                                    size={28}
+                                />
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.bottomSize}>
                         <Text style={styles.title}>
