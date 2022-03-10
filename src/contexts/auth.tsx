@@ -70,7 +70,6 @@ export const AuthProvider:React.FC = ({children}) => {
                     api.defaults.headers['x-access-token'] = data.token
                 
                 }catch (error) {
-                   console.error(error)
                     setUser(undefined)
                 }
 
@@ -108,7 +107,6 @@ export const AuthProvider:React.FC = ({children}) => {
             setLoading(false)
 
         }catch(error: any){
-            console.error(error)
             if (!error.response){
                 return 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
             }

@@ -52,8 +52,8 @@ export async function setAuthStorage({user, token, refreshToken, expiresIn}: Aut
 export async function setRefreshTokenStorage({token, refreshToken, expiresIn}: RefreshTokenProps): Promise<void>{
     
     await AsyncStorage.multiSet([
-            ['@FindAFriend:token', String(token)],
-            ['@FindAFriend:refreshToken',JSON.stringify(refreshToken)],
-            ['@FindAFriend:expiresIn', JSON.stringify(expiresIn)],
-        ])
+        ['@FindAFriend:token', String(token)],
+        ['@FindAFriend:refreshToken',JSON.stringify(refreshToken)],
+        ['@FindAFriend:expiresIn', JSON.stringify(expiresIn)],
+    ])
 }

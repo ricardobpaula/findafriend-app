@@ -143,28 +143,35 @@ const Profile:React.FC = () => {
                         <Text style={styles.title}>
                             Meus Pets:
                         </Text>
-                        <FlatList
-                            data={pets}
-                            showsVerticalScrollIndicator={false}
-                            keyExtractor={(item)=>String(item.id)}
-                            onEndReachedThreshold={0.001}
-                            onEndReached={({distanceFromEnd}) => {
-                                handleFetchMore(distanceFromEnd)
-                            }}
-                            ListFooterComponent={ (
-                                loadingMore ? 
-                                <ActivityIndicator
-                                    color={colors.black}
-                                    size={25}
-                                    style={styles.loading}
-                                />
-                                :
-                                <></>
-                            ) }
-                            renderItem={({item})=> (
-                                <CardPet data={item}/>
-                            )}
-                        />
+                        { 
+                        pets.length > 0 
+                        
+                        ?
+                            <FlatList
+                                data={pets}
+                                showsVerticalScrollIndicator={false}
+                                keyExtractor={(item)=>String(item.id)}
+                                onEndReachedThreshold={0.001}
+                                onEndReached={({distanceFromEnd}) => {
+                                    handleFetchMore(distanceFromEnd)
+                                }}
+                                ListFooterComponent={ (
+                                    loadingMore ? 
+                                    <ActivityIndicator
+                                        color={colors.black}
+                                        size={25}
+                                        style={styles.loading}
+                                    />
+                                    :
+                                    <></>
+                                ) }
+                                renderItem={({item})=> (
+                                    <CardPet data={item}/>
+                                )}
+                            />
+                        :   // TODO estilizar no results
+                            <Text> Você não possui pets cadastrados ainda </Text>
+                        }
                     </View>
             </View>
         </SafeAreaView>)

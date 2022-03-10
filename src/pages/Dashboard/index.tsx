@@ -11,6 +11,7 @@ import styles from './styles'
 
 import CardPetCarousel from '../../components/CardPetCarousel'
 import Load from '../../components/Load'
+import NoResult from '../../components/NoResult'
 
 import api from '../../services/api'
 import colors from '../../styles/colors'
@@ -57,6 +58,16 @@ const Dashboard:React.FC = () => {
 
   if(loading){
     return <Load/>
+  }
+
+  if(pets.length === 0){
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          <NoResult/>
+        </View>
+      </SafeAreaView>
+    )
   }
 
     return (

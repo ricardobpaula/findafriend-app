@@ -9,13 +9,13 @@ export interface Photo {
 }
 
 export interface PetProps {
-        id: number,
+        id: string,
         description: string,
         size: string,
         adopted: boolean,
         createdAt: Date,
         specie: {
-            id: number,
+            id: string,
             name: string
         },
         photos: Photo[]
