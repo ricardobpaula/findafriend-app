@@ -20,7 +20,7 @@ export declare global {
         path: string,
         id: string,
     }
-    
+
     export interface Pet {
             id: string,
             description: string,

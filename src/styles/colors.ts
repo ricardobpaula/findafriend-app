@@ -10,16 +10,16 @@ export default {
 
   background: '#FFFFFF',
   status_bar: '#96460b',
-  
+
   shape: '#F0F0F0',
   white: '#FFFFFF',
   gray: '#CFCFCF',
-  
-black: '#000f14',
+
+  black: '#000f14',
 
   blue: '#00A0FF',
   blue_light: '#9CEFFF',
 
   green: '#4DFF67',
   red: 'red'
-};
+}

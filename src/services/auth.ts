@@ -11,22 +11,22 @@ interface Response {
     }
 }
 
-export default function signIn(): Promise<Response> {
-    return new Promise(resolve => {
-        setTimeout(()=>{
-            resolve({
-                token: 'token',
-                user: {
-                    firstName: 'Nome',
-                    lastName: 'Sobrenome',
-                    phone: '99999999999',
-                    email: 'email@email.com',
-                    isFinding: false,
-                    isOng: false,
-                    avatar: 'default.png'
-                }
-            })
-        },
-            500)
-    })
+export default function signIn (): Promise<Response> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve({
+        token: 'token',
+        user: {
+          firstName: 'Nome',
+          lastName: 'Sobrenome',
+          phone: '99999999999',
+          email: 'email@email.com',
+          isFinding: false,
+          isOng: false,
+          avatar: 'default.png'
+        }
+      })
+    },
+    500)
+  })
 }
