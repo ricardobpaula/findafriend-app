@@ -113,12 +113,12 @@ const SignUp:React.FC = () => {
             }
             
         }catch(e: any){
-            if (e.response.data.status==='error') {
+            if (e?.response?.data?.status==='error') {
                 setError(e.response.data.message)
-                modalRef.current?.openModal()    
-            }else {
-                setError('Nos desculpe, não foi se conectar com nossos servidores.')
                 modalRef.current?.openModal()
+            }else {
+            setError('Nos desculpe, não foi se conectar com nossos servidores.')
+            modalRef.current?.openModal()
             }
         }
     }

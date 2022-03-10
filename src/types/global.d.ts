@@ -1,34 +1,34 @@
 export declare global {
 
-    interface Avatar {
-        id: number,
-        path: string
-    }
-
     interface User {
-        id: number,
+        id: string,
         firstName: string,
         lastName: string,
         email: string,
         phone: string,
         role: string,
         since: Date,
-        avatar?: Avatar
+        avatar?: Photo
+    }
+
+    interface RefreshToken {
+        id: string,
+        expiresIn: Date
     }
 
     export interface Photo {
         path: string,
-        id: number,
+        id: string,
     }
     
     export interface Pet {
-            id: number,
+            id: string,
             description: string,
             size: string,
             adopted: boolean,
             createdAt: Date,
             specie: {
-                id: number,
+                id: string,
                 name: string
             },
             photos: Photo[]

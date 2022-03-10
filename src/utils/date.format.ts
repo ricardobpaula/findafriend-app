@@ -4,7 +4,6 @@ export default class DateFormat {
         const dd = date.getDate().toString().padStart(2,'0')
         const mm = date.getMonth().toString().padStart(2,'0')
         const yyyy = date.getFullYear().toString()
-        console.log(mm)
         return `${dd}/${mm}/${yyyy}`
     }
 

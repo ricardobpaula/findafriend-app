@@ -1,12 +1,15 @@
 import  React, { createContext, useState, useEffect, useContext, useRef } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import decode from 'jwt-decode'
 
 import api from '../services/api'
-import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
+
+import { getAuthStorage, setAuthStorage, setRefreshTokenStorage } from '../utils/auth.storage'
 
 interface AuthProps {
     user: User,
+    refreshToken: RefreshToken,
     token: string
 }
 
@@ -15,12 +18,16 @@ interface Request {
     password: string
 }
 
+interface RefreshTokenResponse {
+    refreshToken: RefreshToken,
+    token: string
+}
+
 interface AuthContextProps {
     signed: boolean,
     user: User | undefined,
     login(request: Request): Promise<void|string>,
     logout(): void,
-    signIn(auth:AuthProps): Promise<void>,
     loading: boolean
 }
 
@@ -32,13 +39,47 @@ export const AuthProvider:React.FC = ({children}) => {
     
     useEffect(()=>{
         async function loadStorage(){
-            const response = await getAuthStorage()
+            const storage = await getAuthStorage()
+            
+            if(!storage || new Date() >= storage.refreshToken.expiresIn){
+                setUser(undefined)
+                setLoading(false)
+                return
+            }
 
-            if(response){
-                setUser(response.user)
-                api.defaults.headers['x-access-token'] = response.token
+            const {user, token, expiresIn, refreshToken} = storage
+
+            if(new Date() >= expiresIn){
+                try {
+                    const { data } = await api.post<RefreshTokenResponse>('/auth/refresh_token', {
+                        refreshToken: refreshToken.id
+                    })
+                    
+                    const { exp } = await decode(data.token) as any
+                    
+                    const expiresIn = new Date(Number(exp) * 1000)
+
+                    await setAuthStorage({
+                        user,
+                        refreshToken: data.refreshToken,
+                        token: data.token,
+                        expiresIn 
+                    })
+                    
+                    setUser(user)
+                    api.defaults.headers['x-access-token'] = data.token
+                
+                }catch (error) {
+                   console.error(error)
+                    setUser(undefined)
+                }
+
+            }else {
+                setUser(user)
+                api.defaults.headers['x-access-token'] = token
             }
             setLoading(false)
+            
         }
         loadStorage()
     },[])
@@ -49,14 +90,25 @@ export const AuthProvider:React.FC = ({children}) => {
                 email: request.email,
                 password: request.password
             })
-            const data = response.data
-            setUser(data.user)
-            setAuthStorage(data)
             
-            api.defaults.headers['x-access-token'] = data.token
+            const {user, refreshToken, token} = response.data
+            const { exp } = decode(token) as any
+
+            setUser(user)
+            
+            setAuthStorage({
+                user,
+                token,
+                refreshToken,
+                expiresIn: new Date(Number(exp) * 1000),
+            })
+            
+            api.defaults.headers['x-access-token'] = token
             
             setLoading(false)
+
         }catch(error: any){
+            console.error(error)
             if (!error.response){
                 return 'Nos desculpe, não foi possivel conectar aos nossos servidores.'
             }
@@ -85,18 +137,8 @@ export const AuthProvider:React.FC = ({children}) => {
         setUser(undefined)
     }
 
-    async function signIn(data:AuthProps){
-        
-        setUser(data.user)
-
-        setAuthStorage(data)
-
-        api.defaults.headers['Authorization'] = `Bearer ${data.token}`
-
-    }
-
     return (
-        <AuthContext.Provider value={{signed: !!user, user, login, logout,signIn, loading}}>
+        <AuthContext.Provider value={{signed: !!user, user, login, logout, loading}}>
             {children}
         </AuthContext.Provider>
     )
