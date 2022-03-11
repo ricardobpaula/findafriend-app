@@ -1,10 +1,10 @@
 import React from 'react'
-import { 
-    Text, 
-    SafeAreaView, 
-    View, 
-    Image, 
-    TouchableOpacity 
+import {
+  Text,
+  SafeAreaView,
+  View,
+  Image,
+  TouchableOpacity
 } from 'react-native'
 
 import { useNavigation } from '@react-navigation/core'
@@ -16,17 +16,17 @@ import Button from '../../components/Button'
 import friends from '../../assets/friends.png'
 
 const Welcome:React.FC = () => {
-    const navigation = useNavigation()
+  const navigation = useNavigation()
 
-    function handleSignUp(){
-        navigation.navigate('SignUp')
-    }
+  function handleSignUp () {
+    navigation.navigate('SignUp')
+  }
 
-    function handleLogin(){
-        navigation.navigate('Login')
-    }
+  function handleLogin () {
+    navigation.navigate('Login')
+  }
 
-    return (
+  return (
         <SafeAreaView style={styles.container}>
             <View style={styles.wrapper}>
 
@@ -34,7 +34,7 @@ const Welcome:React.FC = () => {
                     Encontre aqui o seu melhor amigo
                 </Text>
 
-                <Image 
+                <Image
                     source={friends}
                     style={styles.image}
                     resizeMode='contain'
@@ -42,24 +42,24 @@ const Welcome:React.FC = () => {
 
                 <View style={styles.footer}>
 
-                    <Button 
+                    <Button
                         title='Vamos começar'
                         transparent={false}
-                        onPress={()=>handleSignUp()}
+                        onPress={() => handleSignUp()}
                     ></Button>
 
-                    <TouchableOpacity 
+                    <TouchableOpacity
                     style={styles.loginButtonContainer}
                     onPress={handleLogin}
                     >
                         <Text style={styles.loginButton}>Já possui uma conta?</Text>
                     </TouchableOpacity>
 
-                </View>                
+                </View>
             </View>
 
         </SafeAreaView>
-    )
+  )
 }
 
 export default Welcome

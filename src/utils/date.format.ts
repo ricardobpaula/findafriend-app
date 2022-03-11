@@ -15,10 +15,11 @@ export default class DateFormat {
   }
 
   static mouthYear (date: Date): string {
-    const mm = date.getMonth()
-    const yyyy = date.getFullYear().toString()
+    const since = new Date(date)
+    const mm = since.getMonth()
+    const yyyy = since.getFullYear().toString()
     const mouths = this.getMouths()
-    return `${mouths[mm - 1]} de ${yyyy}`
+    return `${mouths[mm]} de ${yyyy}`
   }
 
   private static getMouths () {

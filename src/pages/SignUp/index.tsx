@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { 
-    useNavigation, 
-    useRoute
+import {
 } from '@react-navigation/native'
-import { 
-    SafeAreaView, 
-    Text, 
-    View,
-    Keyboard,
-    TouchableWithoutFeedback,
-    TouchableOpacity,
-    Linking,
-    ScrollView
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  ScrollView
 } from 'react-native'
 
 import * as yup from 'yup'
@@ -39,91 +36,88 @@ interface Form {
 }
 
 const SignUp:React.FC = () => {
-    
-    const navigation = useNavigation()
-            
-    const {login} = useAuth()
-    
-    const routes = useRoute()
-    const modalRef = useRef<AlertHandles>(null)
-    const [error, setError] = useState<string>()
+  // const navigation = useNavigation()
 
-    const fieldValidationSchema = yup.object().shape({
-        firstName: yup
-            .string()
-            .required('Nome é obrigatorio'),
-        lastName: yup
-            .string()
-            .required('Sobrenome é obrigatorio'),
-        phone: yup
-            .string()
-            .max(11)
-            .required('Celular é obrigatorio'),
-        email: yup
-            .string()
-            .required('E-mail é obrigatorio')
-            .email('E-mail invalido'),
-        password: yup
-            .string()
-            .required('Senha é obrigatoria')
-            .oneOf([yup.ref('confirmPassword'),null],'Senha e confirmação de senha não conferem'),
-        confirmPassword: yup
-            .string()
-            .required('Confirmação de senha é obrigatoria')
-            .oneOf([yup.ref('password'),null],'Senha e confirmação de senha não conferem'),
-    })
+  const { login } = useAuth()
 
-    const { register, setValue, handleSubmit, formState:{errors } } = useForm({
-        resolver: yupResolver(fieldValidationSchema)
-    })
+  // const routes = useRoute()
+  const modalRef = useRef<AlertHandles>(null)
+  const [error, setError] = useState<string>()
 
-    function handleOpenTerm(){
-        // Linking.openURL('http://google.com')
+  const fieldValidationSchema = yup.object().shape({
+    firstName: yup
+      .string()
+      .required('Nome é obrigatorio'),
+    lastName: yup
+      .string()
+      .required('Sobrenome é obrigatorio'),
+    phone: yup
+      .string()
+      .max(11)
+      .required('Celular é obrigatorio'),
+    email: yup
+      .string()
+      .required('E-mail é obrigatorio')
+      .email('E-mail invalido'),
+    password: yup
+      .string()
+      .required('Senha é obrigatoria')
+      .oneOf([yup.ref('confirmPassword'), null], 'Senha e confirmação de senha não conferem'),
+    confirmPassword: yup
+      .string()
+      .required('Confirmação de senha é obrigatoria')
+      .oneOf([yup.ref('password'), null], 'Senha e confirmação de senha não conferem')
+  })
+
+  const { register, setValue, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(fieldValidationSchema)
+  })
+
+  function handleOpenTerm () {
+    // Linking.openURL('http://google.com')
+  }
+
+  useEffect(() => {
+    register('firstName')
+    register('lastName')
+    register('phone')
+    register('email')
+    register('password')
+    register('confirmPassword')
+  }, [register])
+
+  async function onSubmit (user: Form) {
+    try {
+      const request = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+        email: user.email,
+        password: user.password
+      }
+      const response = await api.post('/users', request)
+
+      if (response.status === 201) {
+        await login({
+          email: user.email,
+          password: user.password
+        })
+      } else {
+        setError('Nos desculpe, não foi se conectar com nossos servidores.')
+        modalRef.current?.openModal()
+      }
+    } catch (e: any) {
+      if (e?.response?.data?.status === 'error') {
+        setError(e.response.data.message)
+        modalRef.current?.openModal()
+      } else {
+        setError('Nos desculpe, não foi se conectar com nossos servidores.')
+        modalRef.current?.openModal()
+      }
     }
+  }
 
-    useEffect(()=>{
-        register('firstName')
-        register('lastName')
-        register('phone')
-        register('email')
-        register('password')
-        register('confirmPassword')
-    },[register])
-
-    async function onSubmit(user: Form){
-        try {
-            
-            const request = {
-                firstName: user.firstName,
-                lastName: user.lastName,
-                phone:user.phone,
-                email: user.email,
-                password: user.password
-            }
-            const response = await api.post('/users',request)
-            
-            if (response.status === 201) {
-                await login({
-                    email: user.email,
-                    password: user.password
-                })
-            }else {
-                setError('Nos desculpe, não foi se conectar com nossos servidores.')
-                modalRef.current?.openModal()
-            }
-            
-        }catch(e: any){
-            if (e?.response?.data?.status==='error') {
-                setError(e.response.data.message)
-                modalRef.current?.openModal()
-            }else {
-            setError('Nos desculpe, não foi se conectar com nossos servidores.')
-            modalRef.current?.openModal()
-            }
-        }
-    }
-
-    return (
+  return (
         <SafeAreaView style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
@@ -136,41 +130,41 @@ const SignUp:React.FC = () => {
                         keyboardShouldPersistTaps='handled'
                     >
                         <View style={styles.body}>
-                            <Input 
+                            <Input
                                 placeholder='Nome'
-                                onChangeText={text=>setValue('firstName',text)}
+                                onChangeText={text => setValue('firstName', text)}
                                 error={errors?.firstName}
                             />
-                                <Input 
+                                <Input
                                     placeholder='Sobrenome'
-                                    onChangeText={text=>setValue('lastName',text)}
+                                    onChangeText={text => setValue('lastName', text)}
                                     error={errors?.lastName}
                                 />
-                                <Input 
+                                <Input
                                     placeholder='Celular'
                                     keyboardType='phone-pad'
-                                    onChangeText={text=>setValue('phone',text)}
+                                    onChangeText={text => setValue('phone', text)}
                                     error={errors?.phone}
                                     />
-                                <Input 
+                                <Input
                                     placeholder='E-mail'
                                     autoCapitalize='none'
                                     keyboardType='email-address'
-                                    onChangeText={text=>setValue('email',text)}
+                                    onChangeText={text => setValue('email', text)}
                                     error={errors?.email}
                                 />
-                                <InputPassword 
+                                <InputPassword
                                     placeholder='Senha'
-                                    onChangeText={text=>setValue('password',text)}
+                                    onChangeText={text => setValue('password', text)}
                                     error={errors?.password}
                                 />
-                                <InputPassword 
+                                <InputPassword
                                     placeholder='Confirmação da senha'
-                                    onChangeText={text=>setValue('confirmPassword',text)}
+                                    onChangeText={text => setValue('confirmPassword', text)}
                                     error={errors?.confirmPassword}
                                 />
 
-                                <TouchableOpacity 
+                                <TouchableOpacity
                                     style={styles.termContainer}
                                     onPress={handleOpenTerm}
                                     activeOpacity={0.7}
@@ -181,7 +175,7 @@ const SignUp:React.FC = () => {
                         </View>
                     </ScrollView>
                     <View style={styles.footer}>
-                        <Button 
+                        <Button
                             title='Cadastrar'
                             transparent={false}
                             onPress={handleSubmit(onSubmit)}
@@ -196,7 +190,7 @@ const SignUp:React.FC = () => {
                 </View>
             </TouchableWithoutFeedback>
         </SafeAreaView>
-    )
+  )
 }
 
 export default SignUp

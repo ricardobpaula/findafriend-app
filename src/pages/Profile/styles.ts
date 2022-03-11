@@ -68,6 +68,12 @@ const styles = StyleSheet.create({
   },
   loading: {
     padding: 10
+  },
+  textNoResult: {
+    padding: 10,
+    fontFamily: fonts.heading,
+    color: colors.heading,
+    fontSize: 16
   }
 
 })
