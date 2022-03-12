@@ -20,11 +20,11 @@ import { useAuth } from '../../contexts/auth'
 
 import styles from './styles'
 
-import Button from '../../components/Button'
-import InputPassword from '../../components/InputPassword'
-import Input from '../../components/Input'
+import Button from '../../components/buttons/Button'
+import InputPassword from '../../components/inputs/InputPassword'
+import Input from '../../components/inputs/Input'
 
-import CustomAlert, { AlertHandles } from '../../components/CustomAlert'
+import CustomAlert, { AlertHandles } from '../../components/modals/CustomAlert'
 
 export function Login () {
   const { login } = useAuth()

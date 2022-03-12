@@ -8,13 +8,13 @@ import {
   Dimensions
 } from 'react-native'
 
-import Button from './Button'
+import Button from '../buttons/Button'
 
 import LottieView from 'lottie-react-native'
 
-import ErrorDogAnimation from '../assets/lottie/error_dog.json'
-import fonts from '../styles/fonts'
-import colors from '../styles/colors'
+import ErrorDogAnimation from '../../assets/lottie/error_dog.json'
+import fonts from '../../styles/fonts'
+import colors from '../../styles/colors'
 
 export interface AlertHandles {
     openModal: ()=> void

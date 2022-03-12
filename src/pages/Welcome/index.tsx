@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/core'
 
 import styles from './styles'
 
-import Button from '../../components/Button'
+import Button from '../../components/buttons/Button'
 
 import friends from '../../assets/friends.png'
 

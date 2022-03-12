@@ -11,7 +11,7 @@ import styles from './styles'
 import CardPetCarousel from '../../components/CardPetCarousel'
 import Load from '../../components/Load'
 import NoResult from '../../components/NoResult'
-import TextButton from '../../components/TextButton'
+import TextButton from '../../components/buttons/TextButton'
 
 import api from '../../services/api'
 import colors from '../../styles/colors'

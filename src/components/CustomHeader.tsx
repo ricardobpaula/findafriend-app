@@ -6,7 +6,7 @@ import {
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
-import { ButtonBack } from './ButtonBack'
+import { ButtonBack } from './buttons/ButtonBack'
 
 export default function CustomHeader ():Object {
   return {
