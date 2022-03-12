@@ -5,34 +5,34 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Dashboard from '../pages/Dashboard'
-import Profile from '../pages/Profile'
+import ProfileRoutes from './profile.routes'
 
 const Tab = createBottomTabNavigator()
 
 const AppRoutes: React.FC = () => {
-    return (
+  return (
         <Tab.Navigator>
-            <Tab.Screen 
-                name='Dashboard'            
+            <Tab.Screen
+                name='Dashboard'
                 component={Dashboard}
                 options={{
-                    headerShown: false,
-                    tabBarIcon: () => <MaterialIcons name='pets' size={20} />,
-                    title: 'Pets'
+                  headerShown: false,
+                  tabBarIcon: () => <MaterialIcons name='pets' size={20} />,
+                  title: 'Pets'
                 }}
             />
 
             <Tab.Screen
-                name='Profile'
-                component={Profile}
+                name='ProfileRoutes'
+                component={ProfileRoutes}
                 options={{
-                    headerShown: false,
-                    tabBarIcon: () => <MaterialIcons name='person' size={20} />,
-                    title: 'Perfil'
+                  headerShown: false,
+                  tabBarIcon: () => <MaterialIcons name='person' size={20} />,
+                  title: 'Perfil'
                 }}
             />
         </Tab.Navigator>
-    )
+  )
 }
 
 export default AppRoutes

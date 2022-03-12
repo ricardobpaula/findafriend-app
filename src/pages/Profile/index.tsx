@@ -81,6 +81,14 @@ const Profile:React.FC = () => {
     logout()
   }
 
+  function handleEditProfile () {
+    console.log('Edit Profile')
+  }
+
+  function handleNewPet () {
+    console.log('New Pet')
+  }
+
   useEffect(() => {
     fetchUser()
   }, [])
@@ -126,6 +134,7 @@ const Profile:React.FC = () => {
                             <Button
                                 title='Editar Perfil'
                                 transparent={true}
+                                onPress={handleEditProfile}
                             />
                         </View>
                         <TouchableOpacity
@@ -167,7 +176,19 @@ const Profile:React.FC = () => {
                                     <CardPet data={item}/>
                                 )}
                             />
-                          : <Text style={styles.textNoResult}> Você não possui pets cadastrados ainda </Text>
+
+                          : <View>
+                              <View style={styles.noResult}>
+                                <Text style={styles.textNoResult}> Você não possui pets cadastrados </Text>
+                              </View>
+                                <Button
+                                  flex={false}
+                                  title='Novo Pet'
+                                  transparent={false}
+                                  onPress={handleNewPet}
+                                />
+                            </View>
+
                         }
                     </View>
             </View>

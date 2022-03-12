@@ -5,40 +5,38 @@ import colors from '../styles/colors'
 import Welcome from '../pages/Welcome'
 import SignUp from '../pages/SignUp'
 import { Login } from '../pages/Login'
-import CustomHeader from '../components/CustomHeader'
 
 const AuthStack = createStackNavigator()
 
 const AuthRoutes: React.FC = () => {
-    return (
-        <AuthStack.Navigator           
+  return (
+        <AuthStack.Navigator
             screenOptions={{
-                cardStyle:{
-                    backgroundColor: colors.white
-                },
-                headerMode:'screen'
+              cardStyle: {
+                backgroundColor: colors.white
+              },
+              headerMode: 'screen'
             }}
         >
             <AuthStack.Screen
                 name='Welcome'
                 component={Welcome}
                 options={{
-                    headerShown: false
+                  headerShown: false
                 }}
             />
             <AuthStack.Screen
                 name='SignUp'
                 component={SignUp}
-                options={CustomHeader()}
+                options={{ headerShown: false }}
             />
             <AuthStack.Screen
                 name='Login'
                 component={Login}
-                options={CustomHeader()}
+                options={{ headerShown: false }}
             />
         </AuthStack.Navigator>
-    )
+  )
 }
 
 export default AuthRoutes
-

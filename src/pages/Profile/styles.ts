@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.heading,
     color: colors.heading,
     fontSize: 16
+  },
+  noResult: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 
 })
