@@ -2,7 +2,6 @@ import { Feather } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 
 import {
-  SafeAreaView,
   View,
   Text,
   Image,
@@ -102,7 +101,7 @@ const Profile:React.FC = () => {
   }
 
   return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.content}>
                     <View
                         style={styles.topSize}
@@ -192,7 +191,7 @@ const Profile:React.FC = () => {
                         }
                     </View>
             </View>
-        </SafeAreaView>)
+        </View>)
 }
 
 export default Profile

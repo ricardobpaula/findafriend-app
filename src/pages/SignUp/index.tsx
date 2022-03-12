@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import {
 } from '@react-navigation/native'
 import {
-  SafeAreaView,
   Text,
   View,
   Keyboard,
@@ -118,7 +117,7 @@ const SignUp:React.FC = () => {
   }
 
   return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.content}
                 >
@@ -189,7 +188,7 @@ const SignUp:React.FC = () => {
                     />
                 </View>
             </TouchableWithoutFeedback>
-        </SafeAreaView>
+        </View>
   )
 }
 

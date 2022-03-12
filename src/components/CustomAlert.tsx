@@ -1,12 +1,11 @@
-import React, {useState, useImperativeHandle, forwardRef} from 'react'
+import React, { useState, useImperativeHandle, forwardRef } from 'react'
 
 import {
-    View,
-    Text,
-    Modal,
-    StyleSheet,
-    Dimensions,
-    Image
+  View,
+  Text,
+  Modal,
+  StyleSheet,
+  Dimensions
 } from 'react-native'
 
 import Button from './Button'
@@ -27,24 +26,24 @@ interface AlertProps {
     type: 'alert'|'confirm'
 }
 
-const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (props,ref) => {
-    const [visible, setVisible] = useState(false)
-    
-    function openModal() {
-        setVisible(true)
+const CustomAlert:React.ForwardRefRenderFunction<AlertHandles, AlertProps> = (props, ref) => {
+  const [visible, setVisible] = useState(false)
+
+  function openModal () {
+    setVisible(true)
+  }
+
+  function closeModal () {
+    setVisible(false)
+  }
+
+  useImperativeHandle(ref, () => {
+    return {
+      openModal
     }
+  })
 
-    function closeModal() {
-        setVisible(false)
-    }
-
-    useImperativeHandle(ref, () => {
-        return {
-            openModal
-        }
-    })
-
-    return (
+  return (
         <Modal
             animationType='fade'
             visible={visible}
@@ -61,7 +60,7 @@ const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (pro
                         </Text>
                     </View>
 
-                    <LottieView 
+                    <LottieView
                         source={ErrorDogAnimation}
                         autoPlay
                         loop={true}
@@ -69,7 +68,7 @@ const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (pro
                     />
 
                     <View style={styles.footer}>
-                        
+
                         {props.type === 'confirm' &&
                             <Button
                                 title='Cancelar'
@@ -88,54 +87,54 @@ const CustomAlert:React.ForwardRefRenderFunction<AlertHandles,AlertProps> = (pro
                 </View>
             </View>
         </Modal>
-    )
+  )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.4)'
-    },
-    content: {
-        padding: 10,
-        minHeight: 400,
-        maxHeight: '80%',
-        width: Dimensions.get('window').width - 80,
-        backgroundColor: colors.white,
-        borderRadius: 50,
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    gif: {
-        margin: 10,
-        height: Dimensions.get('window').width * 0.7,
-    },
-    footer: {
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-    },
-    textView: {
-        alignItems: 'center',
-        paddingHorizontal: 10
-    },
-    header: {
-        margin: 5,
-        fontSize: 18,
-        fontFamily: fonts.heading,
-        color: colors.heading,
-        textAlign: 'center'
-    },
-    text: {
-        margin: 5,
-        fontSize: 16,
-        fontFamily: fonts.text,
-        color: colors.black,
-        textAlign: 'center'
-    }
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)'
+  },
+  content: {
+    padding: 10,
+    minHeight: 400,
+    maxHeight: '80%',
+    width: Dimensions.get('window').width - 80,
+    backgroundColor: colors.white,
+    borderRadius: 50,
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  gif: {
+    margin: 10,
+    height: Dimensions.get('window').width * 0.7
+  },
+  footer: {
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%'
+  },
+  textView: {
+    alignItems: 'center',
+    paddingHorizontal: 10
+  },
+  header: {
+    margin: 5,
+    fontSize: 18,
+    fontFamily: fonts.heading,
+    color: colors.heading,
+    textAlign: 'center'
+  },
+  text: {
+    margin: 5,
+    fontSize: 16,
+    fontFamily: fonts.text,
+    color: colors.black,
+    textAlign: 'center'
+  }
 })
 
 export default forwardRef(CustomAlert)

@@ -10,9 +10,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     paddingHorizontal: 10,
-    paddingTop: 10,
-    marginTop: 10,
     backgroundColor: colors.white
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    backgroundColor: colors.shape,
+    borderRadius: 25,
+    paddingVertical: 5
   },
   loading: {
     padding: 10

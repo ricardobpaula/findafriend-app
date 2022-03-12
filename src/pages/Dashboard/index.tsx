@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import {
   ActivityIndicator,
   FlatList,
-  SafeAreaView,
   View
 } from 'react-native'
 
@@ -12,6 +11,7 @@ import styles from './styles'
 import CardPetCarousel from '../../components/CardPetCarousel'
 import Load from '../../components/Load'
 import NoResult from '../../components/NoResult'
+import TextButton from '../../components/TextButton'
 
 import api from '../../services/api'
 import colors from '../../styles/colors'
@@ -60,45 +60,49 @@ const Dashboard:React.FC = () => {
     return <Load/>
   }
 
-  if (pets.length === 0) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.content}>
-          <NoResult/>
-        </View>
-      </SafeAreaView>
-    )
-  }
-
   return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.content}>
-                <FlatList
-                  data={pets}
-                  showsVerticalScrollIndicator={false}
-                  keyExtractor={(item) => String(item.id)}
-                  renderItem={({ item }) => (
-                    <CardPetCarousel
-                      data={item}
-                    />
-                  )}
-                  onEndReachedThreshold={0.001}
-                  onEndReached={({ distanceFromEnd }) => {
-                    handleFetchMore(distanceFromEnd)
-                  }}
-                  ListFooterComponent={ (
-                    loadingMore
-                      ? <ActivityIndicator
-                        color={colors.black}
-                        size={25}
-                        style={styles.loading}
+                <View style={styles.header}>
+                  <TextButton
+                    title='Tamanho'
+                  />
+                  <TextButton
+                    title='Distância'
+                  />
+                  <TextButton
+                    title='Espécies'
+                  />
+                </View>
+                { pets.length > 0
+                  ? <FlatList
+                    data={pets}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item) => String(item.id)}
+                    renderItem={({ item }) => (
+                      <CardPetCarousel
+                        data={item}
                       />
-                      : <></>
-                  ) }
-                >
-                </FlatList>
+                    )}
+                    onEndReachedThreshold={0.001}
+                    onEndReached={({ distanceFromEnd }) => {
+                      handleFetchMore(distanceFromEnd)
+                    }}
+                    ListFooterComponent={ (
+                      loadingMore
+                        ? <ActivityIndicator
+                          color={colors.black}
+                          size={25}
+                          style={styles.loading}
+                        />
+                        : <></>
+                    ) }
+                  >
+                  </FlatList>
+                  : <NoResult/>
+                  }
             </View>
-        </SafeAreaView>
+        </View>
   )
 }
 

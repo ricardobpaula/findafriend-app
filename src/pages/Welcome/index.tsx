@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Text,
-  SafeAreaView,
   View,
   Image,
   TouchableOpacity
@@ -27,7 +26,7 @@ const Welcome:React.FC = () => {
   }
 
   return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <View style={styles.wrapper}>
 
                 <Text style={styles.title}>
@@ -58,7 +57,7 @@ const Welcome:React.FC = () => {
                 </View>
             </View>
 
-        </SafeAreaView>
+        </View>
   )
 }
 
