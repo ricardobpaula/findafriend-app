@@ -110,95 +110,93 @@ const Profile:React.FC = () => {
 
   return (
         <View style={styles.container}>
-            <View style={styles.content}>
-                    <View
-                        style={styles.topSize}
-                    >
-                        <TouchableOpacity
-                            activeOpacity={0.7}
-                            onPress={handleUpdateAvatar}
-                        >
-                            <Image
-                                source={profile?.avatar?.path ? { uri: profile?.avatar?.path } : avatarDefault}
-                                resizeMode='cover'
-                                style={styles.avatar}
-                            />
-                        </TouchableOpacity>
-                        <View>
-                            <Text style={styles.name}>
-                                {`${profile?.firstName} ${profile?.lastName}`}
-                            </Text>
-                            { profile?.since
-                              ? (
-                                    <Text style={styles.since}>
-                                        {`Membro desde: ${DateFormat.mouthYear(profile?.since)}`}
-                                    </Text>
-                                )
-                              : <></>
-                            }
-                        </View>
-                        <View style={styles.edit}>
-                            <Button
-                                title='Editar Perfil'
-                                transparent={true}
-                                onPress={handleEditProfile}
-                            />
-                        </View>
-                        <TouchableOpacity
-                                activeOpacity={0.7}
-                                onPress={handleLogout}
-                                style={styles.logout}
-                            >
-                                <Feather
-                                    name='log-out'
-                                    size={28}
-                                />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.bottomSize}>
-                        <Text style={styles.title}>
-                            Meus Pets:
-                        </Text>
-                        {
-                        pets.length > 0
-
-                          ? <FlatList
-                                data={pets}
-                                showsVerticalScrollIndicator={false}
-                                keyExtractor={(item) => String(item.id)}
-                                onEndReachedThreshold={0.001}
-                                onEndReached={({ distanceFromEnd }) => {
-                                  handleFetchMore(distanceFromEnd)
-                                }}
-                                ListFooterComponent={ (
-                                    loadingMore
-                                      ? <ActivityIndicator
-                                        color={colors.black}
-                                        size={25}
-                                        style={styles.loading}
-                                    />
-                                      : <></>
-                                ) }
-                                renderItem={({ item }) => (
-                                    <CardPet data={item}/>
-                                )}
-                            />
-
-                          : <View>
-                              <View style={styles.noResult}>
-                                <Text style={styles.textNoResult}> Você não possui pets cadastrados </Text>
-                              </View>
-                                <Button
-                                  flex={false}
-                                  title='Novo Pet'
-                                  transparent={false}
-                                  onPress={handleNewPet}
-                                />
-                            </View>
-
-                        }
-                    </View>
+          <View style={styles.content}>
+            <View
+              style={styles.topSize}
+            >
+              <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={handleUpdateAvatar}
+              >
+                  <Image
+                      source={profile?.avatar?.path ? { uri: profile?.avatar?.path } : avatarDefault}
+                      resizeMode='cover'
+                      style={styles.avatar}
+                  />
+              </TouchableOpacity>
+              <View>
+                  <Text style={styles.name}>
+                      {`${profile?.firstName} ${profile?.lastName}`}
+                  </Text>
+                  { profile?.since
+                    ? (
+                          <Text style={styles.since}>
+                              {`Membro desde: ${DateFormat.mouthYear(profile?.since)}`}
+                          </Text>
+                      )
+                    : <></>
+                  }
+              </View>
+              <View style={styles.edit}>
+                  <Button
+                      title='Editar Perfil'
+                      transparent={true}
+                      onPress={handleEditProfile}
+                  />
+              </View>
+              <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={handleLogout}
+                      style={styles.logout}
+              >
+                <Feather
+                    name='log-out'
+                    size={28}
+                />
+              </TouchableOpacity>
             </View>
+            <View style={styles.bottomSize}>
+              <Text style={styles.title}>
+                  Meus Pets:
+              </Text>
+              {
+                pets.length > 0
+                  ? <FlatList
+                      data={pets}
+                      showsVerticalScrollIndicator={false}
+                      keyExtractor={(item) => String(item.id)}
+                      onEndReachedThreshold={0.001}
+                      onEndReached={({ distanceFromEnd }) => {
+                        handleFetchMore(distanceFromEnd)
+                      }}
+                      ListFooterComponent={ (
+                          loadingMore
+                            ? <ActivityIndicator
+                              color={colors.black}
+                              size={25}
+                              style={styles.loading}
+                          />
+                            : <></>
+                        ) }
+                      renderItem={({ item }) => (
+                        <CardPet data={item}/>
+                      )}
+                    />
+
+                  : <View>
+                      <View style={styles.noResult}>
+                        <Text style={styles.textNoResult}> Você não possui pets cadastrados </Text>
+                      </View>
+                      <Button
+                        flex={false}
+                        title='Novo Pet'
+                        transparent={false}
+                        onPress={handleNewPet}
+                      />
+                    </View>
+                }
+            </View>
+          </View>
         </View>)
 }
 
