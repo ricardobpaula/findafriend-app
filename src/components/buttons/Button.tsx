@@ -12,8 +12,7 @@ import fonts from '../../styles/fonts'
 interface ButtonProps extends TouchableOpacityProps {
     title: string,
     transparent: boolean,
-    flex?: boolean,
-
+    flex?: boolean
 }
 
 const Button:React.FC<ButtonProps> = ({ title, transparent, flex, ...rest }) => {

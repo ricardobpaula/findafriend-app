@@ -21,16 +21,18 @@ export declare global {
         id: string,
     }
 
+    export interface Specie {
+      id: string,
+      name: string
+    }
+
     export interface Pet {
             id: string,
             description: string,
             size: string,
             adopted: boolean,
             createdAt: Date,
-            specie: {
-                id: string,
-                name: string
-            },
+            specie: Specie,
             photos: Photo[]
     }
 }

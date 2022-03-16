@@ -45,7 +45,7 @@ const Welcome:React.FC = () => {
                         title='Vamos começar'
                         transparent={false}
                         onPress={() => handleSignUp()}
-                    ></Button>
+                    />
 
                     <TouchableOpacity
                     style={styles.loginButtonContainer}
