@@ -6,16 +6,20 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 import styles from './styles'
+import friends from '../../assets/friends.png'
 
 import Button from '../../components/buttons/Button'
 
-import friends from '../../assets/friends.png'
+import { AuthStackParamsList } from '../../routes/auth.routes'
+
+type WelcomeScreenProp = StackNavigationProp<AuthStackParamsList, 'Welcome'>
 
 const Welcome:React.FC = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<WelcomeScreenProp>()
 
   function handleSignUp () {
     navigation.navigate('SignUp')

@@ -9,6 +9,11 @@ import ProfileRoutes from './profile.routes'
 
 const Tab = createBottomTabNavigator()
 
+export type AppStackParamsList = {
+  Dashboard: undefined,
+  ProfileRoutes: undefined
+}
+
 const AppRoutes: React.FC = () => {
   return (
         <Tab.Navigator>

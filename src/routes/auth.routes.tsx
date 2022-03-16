@@ -8,6 +8,12 @@ import { Login } from '../pages/Login'
 
 const AuthStack = createStackNavigator()
 
+export type AuthStackParamsList = {
+  Welcome: undefined,
+  SignUp: undefined,
+  Login: undefined
+}
+
 const AuthRoutes: React.FC = () => {
   return (
         <AuthStack.Navigator
