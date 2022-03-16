@@ -1,10 +1,10 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import colors from '../styles/colors'
 import Welcome from '../pages/Welcome'
 import SignUp from '../pages/SignUp'
 import { Login } from '../pages/Login'
+import CustomHeader from '../components/CustomHeader'
 
 const AuthStack = createStackNavigator()
 
@@ -17,29 +17,26 @@ export type AuthStackParamsList = {
 const AuthRoutes: React.FC = () => {
   return (
         <AuthStack.Navigator
-            screenOptions={{
-              cardStyle: {
-                backgroundColor: colors.white
-              },
-              headerMode: 'screen'
-            }}
+            screenOptions={CustomHeader}
         >
             <AuthStack.Screen
                 name='Welcome'
                 component={Welcome}
-                options={{
-                  headerShown: false
-                }}
+                options={{ headerShown: false }}
             />
             <AuthStack.Screen
                 name='SignUp'
                 component={SignUp}
-                options={{ headerShown: false }}
+                options={{
+                  title: 'Criar sua conta'
+                }}
             />
             <AuthStack.Screen
                 name='Login'
                 component={Login}
-                options={{ headerShown: false }}
+                options={{
+                  title: 'Entrar'
+                }}
             />
         </AuthStack.Navigator>
   )

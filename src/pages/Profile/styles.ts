@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   topSize: {
-    paddingTop: 50,
+    paddingTop: 25,
     paddingBottom: 25,
     height: height * 0.6,
     alignItems: 'center',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    top: 50,
+    top: 25,
     width: width,
     paddingRight: 20
   },

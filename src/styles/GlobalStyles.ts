@@ -1,7 +1,7 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native'
 import colors from './colors'
 
-const paddingTop = StatusBar.currentHeight ? StatusBar.currentHeight + 10 : 10
+const paddingTop = StatusBar.currentHeight ? StatusBar.currentHeight : 20
 
 const styles = StyleSheet.create({
   androidSafeArea: {

@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     width: '100%',
+    paddingTop: 10,
     paddingHorizontal: 10,
     backgroundColor: colors.white
   },

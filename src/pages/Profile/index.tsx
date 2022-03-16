@@ -1,4 +1,3 @@
-import { Feather } from '@expo/vector-icons'
 import React, { useEffect, useState } from 'react'
 
 import {
@@ -9,22 +8,31 @@ import {
   ActivityIndicator,
   TouchableOpacity
 } from 'react-native'
+
+import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+
 import Button from '../../components/buttons/Button'
 import CardPet from '../../components/CardPet'
-
 import Load from '../../components/Load'
+
 import api from '../../services/api'
-import colors from '../../styles/colors'
-
-import { getAuthStorage } from '../../utils/auth.storage'
-import DateFormat from '../../utils/date.format'
-
 import { useAuth } from '../../contexts/auth'
-
-import avatarDefault from '../../assets/user.png'
+import DateFormat from '../../utils/date.format'
+import { getAuthStorage } from '../../utils/auth.storage'
 
 import styles from './styles'
+import colors from '../../styles/colors'
+import avatarDefault from '../../assets/user.png'
+
+import { AuthStackParamsList } from '../../routes/profile.routes'
+
+type ProfileScreenProps = StackNavigationProp<AuthStackParamsList, 'Profile'>
+
 const Profile:React.FC = () => {
+  const navigation = useNavigation<ProfileScreenProps>()
+
   const [profile, setProfile] = useState<User>()
   const [loading, setLoading] = useState(true)
   const [pets, setPets] = useState<Pet[]>([])
@@ -81,11 +89,11 @@ const Profile:React.FC = () => {
   }
 
   function handleEditProfile () {
-    console.log('Edit Profile')
+    navigation.navigate('EditProfile')
   }
 
   function handleNewPet () {
-    console.log('New Pet')
+    navigation.navigate('FormPet')
   }
 
   useEffect(() => {
