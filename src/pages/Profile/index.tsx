@@ -10,8 +10,6 @@ import {
 } from 'react-native'
 
 import { Feather } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import { StackNavigationProp } from '@react-navigation/stack'
 
 import Button from '../../components/buttons/Button'
 import CardPet from '../../components/CardPet'
@@ -26,14 +24,12 @@ import styles from './styles'
 import colors from '../../styles/colors'
 import avatarDefault from '../../assets/user.png'
 
-import { AuthStackParamsList } from '../../routes/profile.routes'
-import EditProfile, { Handles } from '../../components/modals/EditProfile'
-
-type ProfileScreenProps = StackNavigationProp<AuthStackParamsList, 'Profile'>
+import EditProfile, { EditProfileHandles } from '../../components/modals/EditProfile'
+import FormPet, { FormPetHandles } from '../../components/modals/FormPet'
 
 const Profile:React.FC = () => {
-  const navigation = useNavigation<ProfileScreenProps>()
-  const editProfileRef = useRef<Handles>(null)
+  const editProfileRef = useRef<EditProfileHandles>(null)
+  const formPetRef = useRef<FormPetHandles>(null)
 
   const [profile, setProfile] = useState<User>()
   const [loading, setLoading] = useState(true)
@@ -95,7 +91,7 @@ const Profile:React.FC = () => {
   }
 
   function handleNewPet () {
-    navigation.navigate('FormPet')
+    formPetRef.current?.openModal()
   }
 
   useEffect(() => {
@@ -196,6 +192,9 @@ const Profile:React.FC = () => {
             <EditProfile
               profile={profile}
               ref={editProfileRef}
+            />
+            <FormPet
+              ref={formPetRef}
             />
           </View>
         </View>)

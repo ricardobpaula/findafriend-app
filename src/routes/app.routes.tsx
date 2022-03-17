@@ -5,15 +5,15 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Dashboard from '../pages/Dashboard'
-import ProfileRoutes from './profile.routes'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
+import Profile from '../pages/Profile'
 
 const Tab = createBottomTabNavigator()
 
 export type AppStackParamsList = {
   Dashboard: undefined,
-  ProfileRoutes: undefined
+  Profile: undefined
 }
 
 const AppRoutes: React.FC = () => {
@@ -45,15 +45,14 @@ const AppRoutes: React.FC = () => {
                   title: 'Pets'
                 }}
             />
-
             <Tab.Screen
-                name='ProfileRoutes'
-                component={ProfileRoutes}
-                options={{
-                  headerShown: false,
-                  tabBarIcon: () => <MaterialIcons name='person' size={20} />,
-                  title: 'Perfil'
-                }}
+              name='Profile'
+              component={Profile}
+              options={{
+                headerShown: false,
+                tabBarIcon: () => <MaterialIcons name='person' size={20} />,
+                title: 'Perfil'
+              }}
             />
         </Tab.Navigator>
   )

@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, forwardRef, useEffect, useRef } from 'react'
+import React, { useImperativeHandle, forwardRef, useRef } from 'react'
 
 import {
   Dimensions,
@@ -10,15 +10,15 @@ import { Modalize } from 'react-native-modalize'
 import HeaderModal from '../HeaderModal'
 import Label from '../Label'
 
-export interface Handles {
+export interface EditProfileHandles {
   openModal: ()=>void
 }
 
-interface Props {
+interface EditProfileProps {
   profile: User
 }
 
-const SpecieFilter:React.ForwardRefRenderFunction<Handles, Props> = ({ profile }, ref) => {
+const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfileProps> = ({ profile }, ref) => {
   const modalizeRef = useRef<Modalize>(null)
 
   function openModal () {
@@ -34,10 +34,6 @@ const SpecieFilter:React.ForwardRefRenderFunction<Handles, Props> = ({ profile }
       openModal
     }
   })
-
-  useEffect(() => {
-
-  }, [])
 
   return (
     <Modalize
