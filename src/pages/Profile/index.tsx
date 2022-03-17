@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import {
   View,
@@ -27,11 +27,13 @@ import colors from '../../styles/colors'
 import avatarDefault from '../../assets/user.png'
 
 import { AuthStackParamsList } from '../../routes/profile.routes'
+import EditProfile, { Handles } from '../../components/modals/EditProfile'
 
 type ProfileScreenProps = StackNavigationProp<AuthStackParamsList, 'Profile'>
 
 const Profile:React.FC = () => {
   const navigation = useNavigation<ProfileScreenProps>()
+  const editProfileRef = useRef<Handles>(null)
 
   const [profile, setProfile] = useState<User>()
   const [loading, setLoading] = useState(true)
@@ -89,7 +91,7 @@ const Profile:React.FC = () => {
   }
 
   function handleEditProfile () {
-    navigation.navigate('EditProfile')
+    editProfileRef.current?.openModal()
   }
 
   function handleNewPet () {
@@ -104,7 +106,7 @@ const Profile:React.FC = () => {
     fetchPets()
   }, [profile])
 
-  if (!!loading && !profile) {
+  if (!!loading || !profile) {
     return <Load/>
   }
 
@@ -119,23 +121,18 @@ const Profile:React.FC = () => {
                   onPress={handleUpdateAvatar}
               >
                   <Image
-                      source={profile?.avatar?.path ? { uri: profile?.avatar?.path } : avatarDefault}
+                      source={profile.avatar?.path ? { uri: profile.avatar?.path } : avatarDefault}
                       resizeMode='cover'
                       style={styles.avatar}
                   />
               </TouchableOpacity>
               <View>
                   <Text style={styles.name}>
-                      {`${profile?.firstName} ${profile?.lastName}`}
+                      {`${profile.firstName} ${profile.lastName}`}
                   </Text>
-                  { profile?.since
-                    ? (
-                          <Text style={styles.since}>
-                              {`Membro desde: ${DateFormat.mouthYear(profile?.since)}`}
-                          </Text>
-                      )
-                    : <></>
-                  }
+                  <Text style={styles.since}>
+                    {`Membro desde: ${DateFormat.mouthYear(profile.since)}`}
+                  </Text>
               </View>
               <View style={styles.edit}>
                   <Button
@@ -196,6 +193,10 @@ const Profile:React.FC = () => {
                     </View>
                 }
             </View>
+            <EditProfile
+              profile={profile}
+              ref={editProfileRef}
+            />
           </View>
         </View>)
 }

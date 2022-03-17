@@ -1,15 +1,14 @@
-import React, { useImperativeHandle, useState, forwardRef, useEffect } from 'react'
+import React, { useImperativeHandle, forwardRef, useEffect, useRef } from 'react'
 
 import {
-  Modal,
-  View,
+  Dimensions,
   StyleSheet,
-  Dimensions
+  View
 } from 'react-native'
 
-import colors from '../../styles/colors'
-
-import Button from '../buttons/Button'
+import { Modalize } from 'react-native-modalize'
+import HeaderModal from '../HeaderModal'
+import Label from '../Label'
 
 export interface Handles {
   openModal: ()=>void
@@ -20,14 +19,14 @@ interface Props {
 }
 
 const SpecieFilter:React.ForwardRefRenderFunction<Handles, Props> = ({ profile }, ref) => {
-  const [visible, setVisible] = useState(false)
+  const modalizeRef = useRef<Modalize>(null)
 
   function openModal () {
-    setVisible(true)
+    modalizeRef.current?.open()
   }
 
   function closeModal () {
-    setVisible(false)
+    modalizeRef.current?.close()
   }
 
   useImperativeHandle(ref, () => {
@@ -37,42 +36,56 @@ const SpecieFilter:React.ForwardRefRenderFunction<Handles, Props> = ({ profile }
   })
 
   useEffect(() => {
+
   }, [])
 
   return (
-    <Modal
-      visible={visible}
-      animationType='slide'
+    <Modalize
+      ref={modalizeRef}
+      snapPoint={Dimensions.get('window').height * 0.7}
+      modalStyle={styles.container}
+      HeaderComponent={
+      <HeaderModal
+        title='Editar Perfil'
+        onPress={closeModal}
+      />}
     >
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Button
-            title='close modal'
-            transparent={false}
-            onPress={closeModal}
-          />
-        </View>
+      <View style={styles.content}>
+        <Label
+          title='Nome'
+          text={profile.firstName}
+        />
+        <Label
+          title='Sobrenome'
+          text={profile.lastName}
+        />
+        <Label
+          title='Celular'
+          text={profile.phone}
+        />
+        <Label
+          title='E-mail'
+          text={profile.email}
+        />
+        <Label
+          title='Senha'
+          text={'*'.repeat(10)}
+        />
       </View>
-    </Modal>
+    </Modalize>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    flex: 1
+
   },
   content: {
-    padding: 10,
-    minHeight: 400,
-    maxHeight: '80%',
-    width: Dimensions.get('window').width - 80,
-    backgroundColor: colors.white,
-    borderRadius: 50,
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    flex: 1,
+    paddingTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
-
 export default forwardRef(SpecieFilter)
