@@ -26,10 +26,12 @@ import avatarDefault from '../../assets/user.png'
 
 import EditProfile, { EditProfileHandles } from '../../components/modals/EditProfile'
 import FormPet, { FormPetHandles } from '../../components/modals/FormPet'
+import PictureSelect, { PictureSelectHandles } from '../../components/modals/PictureSelect'
 
 const Profile:React.FC = () => {
   const editProfileRef = useRef<EditProfileHandles>(null)
   const formPetRef = useRef<FormPetHandles>(null)
+  const pictureSelectRef = useRef<PictureSelectHandles>(null)
 
   const [profile, setProfile] = useState<User>()
   const [loading, setLoading] = useState(true)
@@ -80,6 +82,11 @@ const Profile:React.FC = () => {
   }
 
   function handleUpdateAvatar () {
+    pictureSelectRef.current?.openModal()
+  }
+
+  async function updateAvatar (avatar: string) {
+    console.log(avatar)
   }
 
   function handleLogout () {
@@ -189,6 +196,11 @@ const Profile:React.FC = () => {
                     </View>
                 }
             </View>
+            <PictureSelect
+              title='Foto de perfil'
+              ref={pictureSelectRef}
+              getPicture={uri => updateAvatar(uri)}
+            />
             <EditProfile
               profile={profile}
               ref={editProfileRef}
