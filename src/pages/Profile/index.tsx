@@ -11,6 +11,8 @@ import {
 
 import { Feather } from '@expo/vector-icons'
 
+import FormData from 'form-data'
+
 import Button from '../../components/buttons/Button'
 import CardPet from '../../components/CardPet'
 import Load from '../../components/Load'
@@ -26,7 +28,7 @@ import avatarDefault from '../../assets/user.png'
 
 import EditProfile, { EditProfileHandles } from '../../components/modals/EditProfile'
 import FormPet, { FormPetHandles } from '../../components/modals/FormPet'
-import PictureSelect, { PictureSelectHandles } from '../../components/modals/PictureSelect'
+import PictureSelect, { Picture, PictureSelectHandles } from '../../components/modals/PictureSelect'
 
 const Profile:React.FC = () => {
   const editProfileRef = useRef<EditProfileHandles>(null)
@@ -85,8 +87,27 @@ const Profile:React.FC = () => {
     pictureSelectRef.current?.openModal()
   }
 
-  async function updateAvatar (avatar: string) {
+  async function updateAvatar (avatar: Picture) {
+    const data = new FormData()
+
     console.log(avatar)
+    data.append('file', {
+      uri: avatar.uri,
+      name: avatar.name,
+      type: avatar.type
+    })
+
+    try {
+      const response = await api.post('users/avatar', data, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      console.log(response)
+    } catch (e: any) {
+      console.log(e.response)
+    }
   }
 
   function handleLogout () {
@@ -199,7 +220,7 @@ const Profile:React.FC = () => {
             <PictureSelect
               title='Foto de perfil'
               ref={pictureSelectRef}
-              getPicture={uri => updateAvatar(uri)}
+              getPicture={avatar => updateAvatar(avatar)}
             />
             <EditProfile
               profile={profile}

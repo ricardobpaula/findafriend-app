@@ -12,18 +12,24 @@ import { Modalize } from 'react-native-modalize'
 import Button from '../buttons/Button'
 import HeaderModal from '../HeaderModal'
 
+export interface Picture {
+  name: string;
+  type: string;
+  uri: string;
+}
+
 export interface PictureSelectHandles {
   openModal: ()=>void
 }
 
 interface PictureSelectProps {
   title: string,
-  getPicture: (picture: string)=>void
+  getPicture: (picture: Picture)=>void
 }
 
 const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, PictureSelectProps> = ({ title, getPicture }, ref) => {
   const modalizeRef = useRef<Modalize>(null)
-  const [image, setImage] = useState<string>()
+  const [image, setImage] = useState<Picture>()
   const [status, request] = ImagePicker.useCameraPermissions()
 
   function openModal () {
@@ -56,7 +62,15 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
     })
 
     if (!result.cancelled) {
-      setImage(result.uri)
+      const { uri } = result
+      const name = uri.split('/').pop() || ''
+      const type = name.split('.').pop() || ''
+
+      setImage({
+        uri,
+        name,
+        type: type === 'jpg' ? 'image/jpeg' : `image/${type}`
+      })
     }
 
     closeModal()
@@ -75,7 +89,15 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
     })
 
     if (!result.cancelled) {
-      setImage(result.uri)
+      const { uri } = result
+      const name = uri.split('/').pop() || ''
+      const type = name.split('.').pop() || ''
+
+      setImage({
+        uri,
+        name,
+        type: type === 'jpg' ? 'image/jpeg' : `image/${type}`
+      })
     }
 
     closeModal()
