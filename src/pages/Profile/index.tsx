@@ -36,11 +36,12 @@ const Profile:React.FC = () => {
   const pictureSelectRef = useRef<PictureSelectHandles>(null)
 
   const [profile, setProfile] = useState<User>()
+  const [photo, setAvatar] = useState<Photo>()
   const [loading, setLoading] = useState(true)
   const [pets, setPets] = useState<Pet[]>([])
   const [offset, setOffset] = useState(0)
   const [loadingMore, setLoadingMore] = useState(false)
-  const { logout } = useAuth()
+  const { logout, avatar } = useAuth()
 
   async function fetchUser () {
     const data = await getAuthStorage()
@@ -48,6 +49,7 @@ const Profile:React.FC = () => {
       return setLoading(true)
     }
     setProfile(data.user)
+    setAvatar(data.avatar)
   }
 
   async function fetchPets () {
@@ -87,24 +89,25 @@ const Profile:React.FC = () => {
     pictureSelectRef.current?.openModal()
   }
 
-  async function updateAvatar (avatar: Picture) {
+  async function updateAvatar (photo: Picture) {
     const data = new FormData()
 
-    console.log(avatar)
     data.append('file', {
-      uri: avatar.uri,
-      name: avatar.name,
-      type: avatar.type
+      uri: photo.uri,
+      name: photo.name,
+      type: photo.type
     })
 
     try {
-      const response = await api.post('users/avatar', data, {
+      await api.post('users/avatar', data, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data'
         }
       })
-      console.log(response)
+      const newAvatar = await avatar()
+      console.log(newAvatar)
+      setAvatar(newAvatar)
     } catch (e: any) {
       console.log(e.response)
     }
@@ -145,7 +148,7 @@ const Profile:React.FC = () => {
                   onPress={handleUpdateAvatar}
               >
                   <Image
-                      source={profile.avatar?.path ? { uri: profile.avatar?.path } : avatarDefault}
+                      source={photo?.path ? { uri: photo?.path } : avatarDefault}
                       resizeMode='cover'
                       style={styles.avatar}
                   />

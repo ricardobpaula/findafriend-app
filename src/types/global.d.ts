@@ -7,8 +7,7 @@ export declare global {
         email: string,
         phone: string,
         role: string,
-        since: Date,
-        avatar?: Photo
+        since: Date
     }
 
     interface RefreshToken {
@@ -17,8 +16,8 @@ export declare global {
     }
 
     export interface Photo {
-        path: string,
-        id: string,
+      id: string,
+      path: string
     }
 
     export interface Specie {

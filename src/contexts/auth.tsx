@@ -5,10 +5,11 @@ import decode from 'jwt-decode'
 
 import api from '../services/api'
 
-import { getAuthStorage, setAuthStorage } from '../utils/auth.storage'
+import { getAuthStorage, setAuthStorage, updataAvatarStorage } from '../utils/auth.storage'
 
 interface AuthProps {
     user: User,
+    avatar: Photo,
     refreshToken: RefreshToken,
     token: string
 }
@@ -28,6 +29,7 @@ interface AuthContextProps {
     user: User | undefined,
     login(request: Request): Promise<void|string>,
     logout(): void,
+    avatar(): Promise<Photo>,
     loading: boolean
 }
 
@@ -47,7 +49,7 @@ export const AuthProvider:React.FC = ({ children }) => {
         return
       }
 
-      const { user, token, expiresIn, refreshToken } = storage
+      const { user, token, expiresIn, refreshToken, avatar } = storage
 
       if (new Date() >= expiresIn) {
         try {
@@ -61,6 +63,7 @@ export const AuthProvider:React.FC = ({ children }) => {
 
           await setAuthStorage({
             user,
+            avatar,
             refreshToken: data.refreshToken,
             token: data.token,
             expiresIn
@@ -87,12 +90,16 @@ export const AuthProvider:React.FC = ({ children }) => {
         password: request.password
       })
 
-      const { user, refreshToken, token } = response.data
+      const { user, refreshToken, token, avatar } = response.data
       const { exp } = decode(token) as any
 
       setUser(user)
       setAuthStorage({
         user,
+        avatar: {
+          id: avatar.id,
+          path: avatar.path
+        },
         token,
         refreshToken,
         expiresIn: new Date(Number(exp) * 1000)
@@ -123,6 +130,21 @@ export const AuthProvider:React.FC = ({ children }) => {
       return message
     }
   }
+  async function avatar ():Promise<Photo> {
+    const { data } = await api.get<AuthProps>('/users/me')
+
+    const { id, path } = data.avatar
+
+    const photo = {
+      id,
+      path
+    }
+
+    console.log(photo)
+    updataAvatarStorage(photo)
+
+    return photo
+  }
 
   async function logout () {
     await AsyncStorage.clear()
@@ -131,7 +153,7 @@ export const AuthProvider:React.FC = ({ children }) => {
   }
 
   return (
-        <AuthContext.Provider value={{ signed: !!user, user, login, logout, loading }}>
+        <AuthContext.Provider value={{ signed: !!user, user, login, logout, avatar, loading }}>
             {children}
         </AuthContext.Provider>
   )

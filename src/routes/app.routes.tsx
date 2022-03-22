@@ -8,6 +8,7 @@ import Dashboard from '../pages/Dashboard'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 import Profile from '../pages/Profile'
+// import Test from '../pages/Test/Test'
 
 const Tab = createBottomTabNavigator()
 
@@ -54,6 +55,17 @@ const AppRoutes: React.FC = () => {
                 title: 'Perfil'
               }}
             />
+            {/*
+            <Tab.Screen
+                name='Test'
+                component={Test}
+                options={{
+                  headerShown: false,
+                  tabBarIcon: () => <MaterialIcons name='code' size={20} />,
+                  title: 'Teste'
+                }}
+            />
+            */}
         </Tab.Navigator>
   )
 }
