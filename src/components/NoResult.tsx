@@ -2,8 +2,7 @@ import React from 'react'
 import {
   Text,
   View,
-  StyleSheet,
-  Dimensions
+  StyleSheet
 } from 'react-native'
 
 import LottieView from 'lottie-react-native'
@@ -12,16 +11,21 @@ import NotFoundAnimation from '../assets/lottie/no_results.json'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
-const NoResult:React.FC = () => {
+interface NoResultProps {
+  size: number,
+  text: string
+}
+
+const NoResult:React.FC<NoResultProps> = ({ size, text }) => {
   return (
         <View style={styles.container}>
             <LottieView
                 source={NotFoundAnimation}
                 autoPlay
                 loop={true}
-                style={styles.gif}
+                style={{ width: size }}
             />
-            <Text style={styles.text}> Não encontramos pets próximos a você =(</Text>
+            <Text style={styles.text}> {text} </Text>
         </View>
   )
 }
@@ -33,9 +37,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  gif: {
-    width: Dimensions.get('window').width * 0.6
   },
   text: {
     color: colors.heading,

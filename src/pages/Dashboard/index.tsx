@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   View
 } from 'react-native'
@@ -15,7 +16,6 @@ import TextButton from '../../components/buttons/TextButton'
 
 import api from '../../services/api'
 import colors from '../../styles/colors'
-import SpecieFilter, { Handles } from '../../components/modals/SpecieFilter'
 
 const Dashboard:React.FC = () => {
   const [pets, setPets] = useState<Pet[]>([])
@@ -24,23 +24,22 @@ const Dashboard:React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [loadingMore, setLoadingMore] = useState(false)
 
-  const [species, setSpecies] = useState<Specie[]|undefined>(undefined)
+  // const [species, setSpecies] = useState<Specie[]|undefined>(undefined)
   // const [sizes, setSizes] = useState<string[]|undefined>(undefined)
-
-  const specieFilterRef = useRef<Handles>(null)
 
   async function fetchPets () {
     const limit = 2
+    /*
     const specieFilter = species
       ? `&species=${species.map((specie, index, arr) => index === arr.length - 1 ? specie : specie + ',')}`
       : ''
-
+    */
     /*
     const sizeFilter = sizes
       ? `&sizes=${sizes.map((size, index, arr) => index === arr.length - 1 ? size : size + ',')}`
       : ''
     */
-    const filter = `?adopted=false&offset=${offset}&limit=${limit}${specieFilter}`
+    const filter = `?adopted=false&offset=${offset}&limit=${limit}`
     const { data } = await api.get<Pet[]>(`pets${filter}`)
     if (!data) {
       return setLoading(true)
@@ -68,10 +67,6 @@ const Dashboard:React.FC = () => {
     fetchPets()
   }
 
-  function handleSpecieFilter () {
-    specieFilterRef.current?.openModal()
-  }
-
   useEffect(() => {
     fetchPets()
   }, [])
@@ -92,7 +87,6 @@ const Dashboard:React.FC = () => {
                   />
                   <TextButton
                     title='Espécies'
-                    onPress={handleSpecieFilter}
                   />
                 </View>
                 { pets.length > 0
@@ -120,12 +114,11 @@ const Dashboard:React.FC = () => {
                     ) }
                   >
                   </FlatList>
-                  : <NoResult/>
+                  : <NoResult
+                      size={Dimensions.get('window').width * 0.6}
+                      text='Não encontramos pets próximos a você =('
+                    />
                   }
-                <SpecieFilter
-                  ref={specieFilterRef}
-                  changeFilter={value => setSpecies(value)}
-                />
             </View>
         </View>
   )

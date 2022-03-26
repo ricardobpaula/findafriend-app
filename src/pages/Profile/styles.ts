@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
-  topSize: {
+  topSide: {
     paddingTop: 25,
     paddingBottom: 25,
-    height: height * 0.6,
+    height: height * 0.50,
     alignItems: 'center',
     justifyContent: 'space-around',
     backgroundColor: colors.orange_light,
@@ -33,11 +33,17 @@ const styles = StyleSheet.create({
     width: width,
     paddingRight: 20
   },
-  bottomSize: {
+  middleSide: {
+    paddingTop: 20,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row'
+  },
+  bottomSide: {
     flex: 1,
-    paddingTop: 10,
-    paddingHorizontal: 10
-
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   avatar: {
     height: width * 0.5,
@@ -64,15 +70,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.heading,
-    fontSize: 20
+    fontSize: 20,
+    color: colors.heading
   },
   loading: {
     padding: 10
   },
   textNoResult: {
-    padding: 10,
+    padding: 20,
     fontFamily: fonts.heading,
-    color: colors.heading,
+    color: colors.text_gray,
     fontSize: 16
   },
   noResult: {

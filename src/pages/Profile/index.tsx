@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
 
 import { Feather } from '@expo/vector-icons'
@@ -29,6 +30,7 @@ import avatarDefault from '../../assets/user.png'
 import EditProfile, { EditProfileHandles } from '../../components/modals/EditProfile'
 import FormPet, { FormPetHandles } from '../../components/modals/FormPet'
 import PictureSelect, { Picture, PictureSelectHandles } from '../../components/modals/PictureSelect'
+import NoResult from '../../components/NoResult'
 
 const Profile:React.FC = () => {
   const editProfileRef = useRef<EditProfileHandles>(null)
@@ -141,7 +143,7 @@ const Profile:React.FC = () => {
         <View style={styles.container}>
           <View style={styles.content}>
             <View
-              style={styles.topSize}
+              style={styles.topSide}
             >
               <TouchableOpacity
                   activeOpacity={0.7}
@@ -179,10 +181,22 @@ const Profile:React.FC = () => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.bottomSize}>
+            <View style={styles.middleSide}>
               <Text style={styles.title}>
                   Meus Pets:
               </Text>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={handleNewPet}
+              >
+                <Feather
+                  name='plus'
+                  size={25}
+                  color={colors.heading}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.bottomSide}>
               {
                 pets.length > 0
                   ? <FlatList
@@ -208,14 +222,9 @@ const Profile:React.FC = () => {
                     />
 
                   : <View>
-                      <View style={styles.noResult}>
-                        <Text style={styles.textNoResult}> Você não possui pets cadastrados </Text>
-                      </View>
-                      <Button
-                        flex={false}
-                        title='Novo Pet'
-                        transparent={false}
-                        onPress={handleNewPet}
+                        <NoResult
+                        size={Dimensions.get('window').width * 0.2}
+                        text='Você não possui pets cadastrados'
                       />
                     </View>
                 }
