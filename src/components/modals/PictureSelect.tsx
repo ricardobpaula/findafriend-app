@@ -39,7 +39,6 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
   function closeModal () {
     modalizeRef.current?.close()
     if (image) {
-      console.log('Teste Image')
       getPicture(image)
     }
   }

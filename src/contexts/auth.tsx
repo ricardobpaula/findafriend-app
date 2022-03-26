@@ -140,7 +140,6 @@ export const AuthProvider:React.FC = ({ children }) => {
       path
     }
 
-    console.log(photo)
     updataAvatarStorage(photo)
 
     return photo

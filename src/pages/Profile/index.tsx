@@ -108,7 +108,6 @@ const Profile:React.FC = () => {
         }
       })
       const newAvatar = await avatar()
-      console.log(newAvatar)
       setAvatar(newAvatar)
     } catch (e: any) {
       console.log(e.response)
