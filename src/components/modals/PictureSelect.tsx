@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 
 import {
   View,
@@ -24,19 +24,18 @@ export interface PictureSelectHandles {
 
 interface PictureSelectProps {
   title: string,
-  getPicture: (picture: Picture)=>void
+  getPicture: (picture: Picture | undefined)=>void
 }
 
 const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, PictureSelectProps> = ({ title, getPicture }, ref) => {
   const modalizeRef = useRef<Modalize>(null)
-  const [image, setImage] = useState<Picture>()
   const [status, request] = ImagePicker.useCameraPermissions()
 
   function openModal () {
     modalizeRef.current?.open()
   }
 
-  function closeModal () {
+  function closeModal (image?: Picture) {
     modalizeRef.current?.close()
     if (image) {
       getPicture(image)
@@ -51,7 +50,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
 
   async function takePicture () {
     if (!status || status.status !== ImagePicker.PermissionStatus.GRANTED) {
-      request()
+      await request()
     }
 
     const result = await ImagePicker.launchCameraAsync({
@@ -66,11 +65,13 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
       const name = uri.split('/').pop() || ''
       const type = name.split('.').pop() || ''
 
-      setImage({
+      const image = {
         uri,
         name,
         type: type === 'jpg' ? 'image/jpeg' : `image/${type}`
-      })
+      }
+
+      closeModal(image)
     }
 
     closeModal()
@@ -78,7 +79,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
 
   async function openGalery () {
     if (!status || status.status !== ImagePicker.PermissionStatus.GRANTED) {
-      request()
+      await request()
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -93,11 +94,13 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
       const name = uri.split('/').pop() || ''
       const type = name.split('.').pop() || ''
 
-      setImage({
+      const image = {
         uri,
         name,
         type: type === 'jpg' ? 'image/jpeg' : `image/${type}`
-      })
+      }
+
+      closeModal(image)
     }
 
     closeModal()
@@ -111,7 +114,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
       HeaderComponent={
       <HeaderModal
         title={title}
-        onPress={closeModal}
+        onPress={() => closeModal}
       />}
     >
       <View style={styles.content}>
@@ -129,7 +132,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
           <Button
             title='Cancelar'
             transparent={true}
-            onPress={closeModal}
+            onPress={() => closeModal}
           />
         </View>
       </View>

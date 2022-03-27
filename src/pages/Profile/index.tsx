@@ -88,10 +88,15 @@ const Profile:React.FC = () => {
   }
 
   function handleUpdateAvatar () {
+    console.log('Opening modal to update avatar!')
     pictureSelectRef.current?.openModal()
   }
 
-  async function updateAvatar (photo: Picture) {
+  async function updateAvatar (photo: Picture | undefined) {
+    if (!photo) {
+      return
+    }
+
     const data = new FormData()
 
     data.append('file', {
