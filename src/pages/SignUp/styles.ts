@@ -11,11 +11,16 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     width: '100%',
-    paddingTop: 10
+    justifyContent: 'center'
   },
   header: {
     paddingHorizontal: 20,
     marginBottom: 20
+  },
+  body: {
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 10
   },
   title: {
     fontFamily: fonts.heading,
@@ -27,33 +32,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.heading
   },
-  body: {
-    alignItems: 'center',
+  footer: {
     width: '100%',
-    paddingHorizontal: 10
+    paddingHorizontal: 20,
+    paddingBottom: 20
   },
   termContainer: {
-    marginTop: 10,
+    paddingVertical: 10,
     width: '100%',
     alignItems: 'center'
   },
   text: {
     fontSize: 15,
     textAlign: 'center',
-    color: colors.black,
+    color: colors.heading,
     fontFamily: fonts.text
   },
   link: {
     textAlign: 'center',
     fontSize: 15,
-    color: colors.heading,
+    color: colors.orange_dark,
     fontFamily: fonts.text,
     textDecorationLine: 'underline'
-  },
-  footer: {
-    width: '100%',
-    paddingHorizontal: 20,
-    paddingBottom: 10
   }
 })
 
