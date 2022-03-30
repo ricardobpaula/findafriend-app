@@ -4,8 +4,7 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  TouchableOpacityProps
+  TouchableOpacity
 } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
@@ -13,26 +12,44 @@ import { Ionicons } from '@expo/vector-icons'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
-interface HeaderModalProps extends TouchableOpacityProps {
-  title: string
+interface HeaderModalProps {
+  title: string,
+  showSaveButton?:boolean,
+  onClose: ()=>void,
+  onSave?: ()=>void
 }
 
-const HeaderModal:React.FC<HeaderModalProps> = ({ title, ...rest }) => {
+const HeaderModal:React.FC<HeaderModalProps> = ({
+  title,
+  showSaveButton = false,
+  onClose,
+  onSave = () => {}
+}) => {
   return (
     <View
       style={styles.container}
     >
+      <View style={styles.leftSide}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={onClose}
+        >
+          <Ionicons
+            name='close-sharp'
+            size={22}
+            color={colors.black}
+          />
+        </TouchableOpacity>
       <Text style={styles.title}> {title} </Text>
-      <TouchableOpacity
-        activeOpacity={0.7}
-        {...rest}
-      >
-        <Ionicons
-          name='close-sharp'
-          size={22}
-          color={colors.black}
-        />
-      </TouchableOpacity>
+      </View>
+      {showSaveButton &&
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={onSave}
+        >
+          <Text style={styles.saveButton}> Salvar </Text>
+        </TouchableOpacity>
+      }
     </View>
   )
 }
@@ -41,16 +58,27 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     paddingTop: 20,
     paddingBottom: 10,
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.gray
   },
+  leftSide: {
+    justifyContent: 'flex-start',
+    flexDirection: 'row'
+  },
   title: {
     fontFamily: fonts.heading,
-    fontSize: 20,
+    fontSize: 18,
+    color: colors.black
+  },
+  saveButton: {
+    fontFamily: fonts.heading,
+    fontSize: 16,
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
     color: colors.black
   }
 })

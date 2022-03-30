@@ -52,6 +52,7 @@ const SignUp:React.FC = () => {
       .required('Sobrenome é obrigatorio'),
     phone: yup
       .string()
+      .min(11)
       .max(11)
       .required('Celular é obrigatorio'),
     email: yup

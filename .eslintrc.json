@@ -24,7 +24,8 @@
     ],
     "rules": {
       "no-use-before-define": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "camelcase": "off"
     },
     "root": true
 }

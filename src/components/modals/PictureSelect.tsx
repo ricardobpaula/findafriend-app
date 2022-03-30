@@ -114,7 +114,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
       HeaderComponent={
       <HeaderModal
         title={title}
-        onPress={() => closeModal}
+        onClose={() => closeModal()}
       />}
     >
       <View style={styles.content}>
@@ -132,7 +132,7 @@ const PictureSelect:React.ForwardRefRenderFunction<PictureSelectHandles, Picture
           <Button
             title='Cancelar'
             transparent={true}
-            onPress={() => closeModal}
+            onPress={() => closeModal()}
           />
         </View>
       </View>

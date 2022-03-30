@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.text,
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 5,
     color: colors.black
   },
   text: {
-    fontFamily: fonts.complement,
-    fontSize: 16,
+    fontFamily: fonts.text,
+    fontSize: 14,
     marginBottom: 5,
     color: colors.text_gray
   },
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 16,
     color: colors.black,
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid'

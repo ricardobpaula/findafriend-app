@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
   },
   since: {
-    fontFamily: fonts.complement,
+    fontFamily: fonts.text,
     fontSize: 15,
     textAlign: 'center'
   },

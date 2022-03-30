@@ -3,10 +3,8 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
-  Dimensions,
   TouchableOpacity,
-  Text,
-  Animated
+  Text
 
 } from 'react-native'
 
@@ -48,36 +46,11 @@ export function Login () {
     resolver: yupResolver(fieldValidationSchema)
   })
 
-  const width = Dimensions.get('window').width
-  const keyBoardOpen = useRef(new Animated.Value(width * 0.5)).current
-
-  // adding listeners keyboard
-  useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', keyboardDidShow)
-    Keyboard.addListener('keyboardDidHide', keyboardDidHide)
-  }, [])
-
   // adding registers react-hook-form
   useEffect(() => {
     register('email')
     register('password')
   }, [register])
-
-  function keyboardDidShow () {
-    Animated.timing(keyBoardOpen, {
-      toValue: width * 0.2,
-      duration: 500,
-      useNativeDriver: false
-    }).start()
-  }
-
-  function keyboardDidHide () {
-    Animated.timing(keyBoardOpen, {
-      toValue: width * 0.5,
-      duration: 500,
-      useNativeDriver: false
-    }).start()
-  }
 
   async function onSubmit (data: any) {
     const response = await login(data)

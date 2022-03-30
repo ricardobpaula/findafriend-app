@@ -13,7 +13,9 @@ import styles from './src/styles/GlobalStyles'
 import {
   useFonts,
   Roboto_400Regular,
-  Roboto_700Bold
+  Roboto_700Bold,
+  Roboto_100Thin,
+  Roboto_300Light
 } from '@expo-google-fonts/roboto'
 import { StatusBar } from 'expo-status-bar'
 import colors from './src/styles/colors'
@@ -22,7 +24,9 @@ import { NavigationContainer } from '@react-navigation/native'
 const App:React.FC = () => {
   const [fontsLoaded] = useFonts({
     Roboto_400Regular,
-    Roboto_700Bold
+    Roboto_700Bold,
+    Roboto_100Thin,
+    Roboto_300Light
   })
 
   if (!fontsLoaded) {
