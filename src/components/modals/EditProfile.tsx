@@ -16,13 +16,15 @@ import { useForm, Controller } from 'react-hook-form'
 
 import HeaderModal from '../HeaderModal'
 import InputLabel from '../inputs/InputLabel'
+import api from '../../services/api'
 
 export interface EditProfileHandles {
-  openModal: ()=>void
+  openModal: ()=>void;
 }
 
 interface EditProfileProps {
-  profile: User
+  profile: User;
+  handleUpdate: (changed: boolean)=> void;
 }
 
 interface Form {
@@ -32,9 +34,18 @@ interface Form {
   email?: string;
 }
 
-const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfileProps> = ({ profile }, ref) => {
+const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfileProps> = ({ profile, handleUpdate }, ref) => {
   const modalizeRef = useRef<Modalize>(null)
-  //  const [error, setError] = useState<string>()
+
+  function openModal () {
+    modalizeRef.current?.open()
+  }
+
+  function closeModal (changed: boolean = false) {
+    handleUpdate(changed)
+    setDefaultValues()
+    modalizeRef.current?.close()
+  }
 
   const fieldValidationSchema = yup.object().shape({
     firstName: yup
@@ -50,24 +61,16 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
       .email('E-mail invalido')
   })
 
-  const { register, handleSubmit, reset, control } = useForm({
-    resolver: yupResolver(fieldValidationSchema),
+  const { register, handleSubmit, control, reset, setValue, formState: { isDirty } } = useForm({
+    resolver: yupResolver(fieldValidationSchema) /*,
     defaultValues: {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      phone: profile.phone,
-      email: profile.email
-    }
+      firstName: profile?.firstName,
+      lastName: profile?.lastName,
+      phone: profile?.phone,
+      email: profile?.email
+    } */
+
   })
-
-  function openModal () {
-    modalizeRef.current?.open()
-  }
-
-  function closeModal () {
-    reset()
-    modalizeRef.current?.close()
-  }
 
   useImperativeHandle(ref, () => {
     return {
@@ -76,8 +79,29 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
   })
 
   async function onSubmit (user: Form) {
-    console.log(user)
+    try {
+      const { status } = await api.put('/users', user)
+
+      if (status !== 200) {
+        return
+      }
+
+      closeModal(true)
+    } catch (e) {
+      console.log(e)
+    }
   }
+
+  function setDefaultValues () {
+    reset()
+    setValue('firstName', profile.firstName)
+    setValue('lastName', profile.lastName)
+    setValue('email', profile.email)
+    setValue('phone', profile.phone)
+  }
+  useEffect(() => {
+    setDefaultValues()
+  }, [profile])
 
   useEffect(() => {
     register('firstName')
@@ -94,12 +118,12 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
       scrollViewProps={{ showsVerticalScrollIndicator: false }}
       keyboardAvoidingBehavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardAvoidingOffset={Platform.OS === 'ios' ? 64 : 0}
-
       HeaderComponent={
       <HeaderModal
         title='Editar Perfil'
+        showSaveButton={isDirty}
         onSave={handleSubmit(onSubmit)}
-        onClose={closeModal}
+        onClose={() => closeModal()}
       />}
     >
       <View style={styles.content}>
@@ -158,4 +182,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
 export default forwardRef(SpecieFilter)

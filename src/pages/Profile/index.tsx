@@ -21,7 +21,6 @@ import Load from '../../components/Load'
 import api from '../../services/api'
 import { useAuth } from '../../contexts/auth'
 import DateFormat from '../../utils/date.format'
-import { getAuthStorage } from '../../utils/auth.storage'
 
 import styles from './styles'
 import colors from '../../styles/colors'
@@ -38,20 +37,21 @@ const Profile:React.FC = () => {
   const pictureSelectRef = useRef<PictureSelectHandles>(null)
 
   const [profile, setProfile] = useState<User>()
-  const [photo, setAvatar] = useState<Photo>()
+  const [photo, setPhoto] = useState<Photo>()
   const [loading, setLoading] = useState(true)
   const [pets, setPets] = useState<Pet[]>([])
   const [offset, setOffset] = useState(0)
   const [loadingMore, setLoadingMore] = useState(false)
-  const { logout, avatar } = useAuth()
+  const { logout, me } = useAuth()
 
   async function fetchUser () {
-    const data = await getAuthStorage()
+    const data = await me()
     if (!data) {
       return setLoading(true)
     }
     setProfile(data.user)
-    setAvatar(data.avatar)
+    setPhoto(data.avatar)
+    setLoading(false)
   }
 
   async function fetchPets () {
@@ -88,8 +88,13 @@ const Profile:React.FC = () => {
   }
 
   function handleUpdateAvatar () {
-    console.log('Opening modal to update avatar!')
     pictureSelectRef.current?.openModal()
+  }
+
+  async function handleUpdateProfile (changed: boolean):Promise<void> {
+    if (!changed) return
+
+    await fetchUser()
   }
 
   async function updateAvatar (photo: Picture | undefined) {
@@ -112,8 +117,8 @@ const Profile:React.FC = () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      const newAvatar = await avatar()
-      setAvatar(newAvatar)
+      const { avatar } = await me()
+      setPhoto(avatar)
     } catch (e: any) {
       console.log(e.response)
     }
@@ -241,6 +246,7 @@ const Profile:React.FC = () => {
             <EditProfile
               profile={profile}
               ref={editProfileRef}
+              handleUpdate={changed => handleUpdateProfile(changed)}
             />
             <FormPet
               ref={formPetRef}

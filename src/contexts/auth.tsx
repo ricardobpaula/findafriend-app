@@ -5,13 +5,18 @@ import decode from 'jwt-decode'
 
 import api from '../services/api'
 
-import { getAuthStorage, setAuthStorage, updataAvatarStorage } from '../utils/auth.storage'
+import { getAuthStorage, setAuthStorage } from '../utils/storage'
 
 interface AuthProps {
     user: User,
     avatar: Photo,
     refreshToken: RefreshToken,
     token: string
+}
+
+interface MeProps {
+  user: User,
+  avatar: Photo
 }
 
 interface Request {
@@ -26,17 +31,16 @@ interface RefreshTokenResponse {
 
 interface AuthContextProps {
     signed: boolean,
-    user: User | undefined,
     login(request: Request): Promise<void|string>,
     logout(): void,
-    avatar(): Promise<Photo>,
+    me(): Promise<MeProps>,
     loading: boolean
 }
 
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
 export const AuthProvider:React.FC = ({ children }) => {
-  const [user, setUser] = useState<User|undefined>(undefined)
+  const [signed, setSigned] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -44,12 +48,12 @@ export const AuthProvider:React.FC = ({ children }) => {
       const storage = await getAuthStorage()
 
       if (!storage || new Date() >= storage.refreshToken.expiresIn) {
-        setUser(undefined)
+        setSigned(true)
         setLoading(false)
         return
       }
 
-      const { user, token, expiresIn, refreshToken, avatar } = storage
+      const { token, expiresIn, refreshToken } = storage
 
       if (new Date() >= expiresIn) {
         try {
@@ -62,20 +66,18 @@ export const AuthProvider:React.FC = ({ children }) => {
           const expiresIn = new Date(Number(exp) * 1000)
 
           await setAuthStorage({
-            user,
-            avatar,
             refreshToken: data.refreshToken,
             token: data.token,
             expiresIn
           })
 
-          setUser(user)
+          setSigned(true)
           api.defaults.headers['x-access-token'] = data.token
         } catch (error) {
-          setUser(undefined)
+          setSigned(false)
         }
       } else {
-        setUser(user)
+        setSigned(true)
         api.defaults.headers['x-access-token'] = token
       }
       setLoading(false)
@@ -90,16 +92,11 @@ export const AuthProvider:React.FC = ({ children }) => {
         password: request.password
       })
 
-      const { user, refreshToken, token, avatar } = response.data
+      const { refreshToken, token } = response.data
       const { exp } = decode(token) as any
 
-      setUser(user)
+      setSigned(true)
       setAuthStorage({
-        user,
-        avatar: {
-          id: avatar.id,
-          path: avatar.path
-        },
         token,
         refreshToken,
         expiresIn: new Date(Number(exp) * 1000)
@@ -130,29 +127,30 @@ export const AuthProvider:React.FC = ({ children }) => {
       return message
     }
   }
-  async function avatar ():Promise<Photo> {
+  async function me ():Promise<MeProps> {
     const { data } = await api.get<AuthProps>('/users/me')
 
-    const { id, path } = data.avatar
+    const { user, avatar } = data
 
     const photo = {
-      id,
-      path
+      id: avatar.id,
+      path: avatar.path
     }
 
-    updataAvatarStorage(photo)
-
-    return photo
+    return {
+      user,
+      avatar: photo
+    }
   }
 
   async function logout () {
     await AsyncStorage.clear()
     api.defaults.headers['x-access-token'] = undefined
-    setUser(undefined)
+    setSigned(false)
   }
 
   return (
-        <AuthContext.Provider value={{ signed: !!user, user, login, logout, avatar, loading }}>
+        <AuthContext.Provider value={{ signed, login, logout, me, loading }}>
             {children}
         </AuthContext.Provider>
   )
