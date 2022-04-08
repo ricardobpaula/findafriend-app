@@ -27,7 +27,7 @@ interface EditProfileProps {
   handleUpdate: (changed: boolean)=> void;
 }
 
-interface Form {
+interface UserForm {
   firstName?: string;
   lastName?: string;
   phone?: string;
@@ -36,16 +36,6 @@ interface Form {
 
 const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfileProps> = ({ profile, handleUpdate }, ref) => {
   const modalizeRef = useRef<Modalize>(null)
-
-  function openModal () {
-    modalizeRef.current?.open()
-  }
-
-  function closeModal (changed: boolean = false) {
-    handleUpdate(changed)
-    setDefaultValues()
-    modalizeRef.current?.close()
-  }
 
   const fieldValidationSchema = yup.object().shape({
     firstName: yup
@@ -62,23 +52,20 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
   })
 
   const { register, handleSubmit, control, reset, setValue, formState: { isDirty } } = useForm({
-    resolver: yupResolver(fieldValidationSchema) /*,
-    defaultValues: {
-      firstName: profile?.firstName,
-      lastName: profile?.lastName,
-      phone: profile?.phone,
-      email: profile?.email
-    } */
-
+    resolver: yupResolver(fieldValidationSchema)
   })
 
-  useImperativeHandle(ref, () => {
-    return {
-      openModal
-    }
-  })
+  function openModal () {
+    modalizeRef.current?.open()
+  }
 
-  async function onSubmit (user: Form) {
+  function closeModal (changed: boolean = false) {
+    handleUpdate(changed)
+    setDefaultValues()
+    modalizeRef.current?.close()
+  }
+
+  async function onSubmit (user: UserForm) {
     try {
       const { status } = await api.put('/users', user)
 
@@ -99,6 +86,7 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
     setValue('email', profile.email)
     setValue('phone', profile.phone)
   }
+
   useEffect(() => {
     setDefaultValues()
   }, [profile])
@@ -109,6 +97,12 @@ const SpecieFilter:React.ForwardRefRenderFunction<EditProfileHandles, EditProfil
     register('phone')
     register('email')
   }, [register])
+
+  useImperativeHandle(ref, () => {
+    return {
+      openModal
+    }
+  })
 
   return (
     <Modalize
