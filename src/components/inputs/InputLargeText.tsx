@@ -41,7 +41,7 @@ const InputLargeText:React.ForwardRefRenderFunction<InputLargeTextHandles, Input
   )
   return (
     <CustomModal
-      height={Dimensions.get('screen').height * 0.6}
+      height={Dimensions.get('screen').height * 0.5}
       ref={customModalRef}
       Header={
         <HeaderModal

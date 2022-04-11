@@ -23,9 +23,10 @@ export interface InputSpecieHandles {
 interface InputSpecieProps {
   title: string;
   specie?: Specie;
+  onChange: (specie?: Specie)=>void
 }
 
-const InputSpecie:React.ForwardRefRenderFunction<InputSpecieHandles, InputSpecieProps> = ({ title, specie }, ref) => {
+const InputSpecie:React.ForwardRefRenderFunction<InputSpecieHandles, InputSpecieProps> = ({ title, specie, onChange }, ref) => {
   const customModalRef = useRef<CustomModalHandles>(null)
   const [value, setValue] = useState(specie)
   const [species, setSpecies] = useState<Specie[]>()
@@ -50,7 +51,7 @@ const InputSpecie:React.ForwardRefRenderFunction<InputSpecieHandles, InputSpecie
   }
 
   function closeModal () {
-    console.log(value)
+    onChange(value)
     customModalRef.current?.close()
   }
 
@@ -84,7 +85,7 @@ const InputSpecie:React.ForwardRefRenderFunction<InputSpecieHandles, InputSpecie
               style={styles.radioButton}
               activeOpacity={0.7}
               key={item.id}
-              onPress={() => setValue(item)}
+              onPress={() => value === item ? setValue(undefined) : setValue(item)}
             >
               <Text style={styles.text}>{item.name}</Text>
               <MaterialIcons

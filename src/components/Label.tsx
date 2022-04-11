@@ -16,6 +16,10 @@ interface LabelProps extends TouchableOpacityProps {
 }
 
 const Label:React.FC<LabelProps> = ({ title, text, ...rest }) => {
+  function capitalize (str: string) {
+    return str.charAt(0).toLocaleUpperCase() + str.slice(1)
+  }
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -24,7 +28,7 @@ const Label:React.FC<LabelProps> = ({ title, text, ...rest }) => {
     >
       <View>
         <Text style={styles.title}> {title} </Text>
-        <Text style={styles.text}> {text} </Text>
+        <Text style={styles.text}> {capitalize(text)} </Text>
       </View>
       <View style={styles.buttonContainer}>
           <Text style={styles.textButton}> Editar </Text>

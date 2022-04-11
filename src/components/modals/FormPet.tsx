@@ -33,6 +33,8 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
   const inputSpecieRef = useRef<InputSpecieHandles>(null)
   const [pet, setPet] = useState<Pet>()
 
+  const [specie, setSpecie] = useState<Specie|undefined>()
+
   const fieldValidationSchema = yup.object().shape({
     description: yup
       .string()
@@ -74,7 +76,7 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
   function setDefaultValues () {
     reset()
     setValue('description', pet?.description)
-    setValue('specie', pet?.specie)
+    setValue('specie', pet?.specie.id)
     setValue('size', pet?.size)
   }
 
@@ -84,8 +86,8 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
 
   useEffect(() => {
     register('description')
-    register('specie')
     register('size')
+    register('specie')
   }, [register])
 
   useImperativeHandle(ref, () => {
@@ -131,19 +133,23 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
         <Controller
           control={control}
           name='specie'
-          render={({ field: { value, onChange } }) =>
-             <>
+          render={() =>
+            <>
               <Label
                 title='Especie'
                 onPress={handleEditSpecie}
-                text={value || 'Selecione a especie do pet'}
+                text={specie?.name || 'Selecione a especie do pet'}
               />
               <InputSpecie
-              title='Especie'
-              ref={inputSpecieRef}
+                title='Especie'
+                ref={inputSpecieRef}
+                onChange={(specie) => {
+                  setValue('specie', specie?.id)
+                  setSpecie(specie)
+                }}
               />
-          </>
-        }
+            </>
+          }
         />
         <Controller
           control={control}
