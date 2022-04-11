@@ -9,29 +9,29 @@ import {
   View
 } from 'react-native'
 
-import { Modalize } from 'react-native-modalize'
 import colors from '../../styles/colors'
 import fonts from '../../styles/fonts'
 import HeaderModal from '../HeaderModal'
+import CustomModal, { CustomModalHandles } from '../modals/CustomModal'
 
-export interface InputModalHandles {
+export interface InputLargeTextHandles {
   openModal: ()=>void
 }
 
-interface InputModalProps extends TextInputProps {
+interface InputLargeTextProps extends TextInputProps {
   title: string;
   text?: string;
 }
 
-const InputLargeText:React.ForwardRefRenderFunction<InputModalHandles, InputModalProps> = ({ title, ...rest }, ref) => {
-  const modalizeRef = useRef<Modalize>(null)
+const InputLargeText:React.ForwardRefRenderFunction<InputLargeTextHandles, InputLargeTextProps> = ({ title, ...rest }, ref) => {
+  const customModalRef = useRef<CustomModalHandles>(null)
 
   function openModal () {
-    modalizeRef.current?.open()
+    customModalRef.current?.open()
   }
 
   function closeModal () {
-    modalizeRef.current?.close()
+    customModalRef.current?.close()
   }
 
   useImperativeHandle(ref,
@@ -40,35 +40,37 @@ const InputLargeText:React.ForwardRefRenderFunction<InputModalHandles, InputModa
     })
   )
   return (
-    <Modalize
-      ref={modalizeRef}
-      snapPoint={Dimensions.get('screen').height * 0.2}
-      modalStyle={styles.container}
-      HeaderComponent={
+    <CustomModal
+      height={Dimensions.get('screen').height * 0.6}
+      ref={customModalRef}
+      Header={
         <HeaderModal
-        title=''
-        onClose={closeModal}
-        onSave={closeModal}
-        showSaveButton={true}
-      />}
+          title=''
+          onClose={closeModal}
+          onSave={closeModal}
+          showSaveButton={true}
+        />
+      }
     >
-      <View style={styles.content}>
-          <Text style={styles.title}>{title}</Text>
-          <TextInput
-            style={styles.input}
-            multiline={true}
-            numberOfLines={4}
-            {...rest}
-          />
+      <View style={styles.container}>
+        <View style={styles.content}>
+            <Text style={styles.title}>{title}</Text>
+            <TextInput
+              style={styles.input}
+              multiline={true}
+              numberOfLines={4}
+              {...rest}
+            />
+        </View>
       </View>
-    </Modalize>
+    </CustomModal>
 
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%'
+    flex: 1
   },
   content: {
     padding: 20
@@ -80,13 +82,14 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingTop: 10,
+    marginTop: 10,
     fontFamily: fonts.text,
     fontSize: 22,
     color: colors.black,
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
-    height: Dimensions.get('window').height * 0.1
+    height: Dimensions.get('window').height * 0.2
   }
 })
 

@@ -13,7 +13,8 @@ import HeaderModal from '../HeaderModal'
 import Label from '../Label'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import InputLargeText, { InputModalHandles } from '../inputs/InputLargeText'
+import InputLargeText, { InputLargeTextHandles } from '../inputs/InputLargeText'
+import InputSpecie, { InputSpecieHandles } from '../inputs/InputSpecie'
 
 export interface FormPetHandles {
   openModal: (pet?: Pet)=>void
@@ -27,7 +28,9 @@ interface PetForm {
 
 const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
   const modalizeRef = useRef<Modalize>(null)
-  const inputDescriptionRef = useRef<InputModalHandles>(null)
+  const exampleRef = useRef<Modalize>(null)
+  const inputDescriptionRef = useRef<InputLargeTextHandles>(null)
+  const inputSpecieRef = useRef<InputSpecieHandles>(null)
   const [pet, setPet] = useState<Pet>()
 
   const fieldValidationSchema = yup.object().shape({
@@ -60,6 +63,10 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
     inputDescriptionRef.current?.openModal()
   }
 
+  function handleEditSpecie () {
+    inputSpecieRef.current?.openModal()
+  }
+
   async function onSubmit (pet: PetForm) {
     console.log('Description: ', formState)
   }
@@ -90,7 +97,8 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
   return (
     <Modalize
       ref={modalizeRef}
-      snapPoint={Dimensions.get('window').height * 0.8}
+      modalHeight={Dimensions.get('screen').height * 0.8}
+      snapPoint={Dimensions.get('screen').height * 0.6}
       modalStyle={styles.container}
       HeaderComponent={
       <HeaderModal
@@ -101,7 +109,6 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
       />}
     >
       <View style={styles.content}>
-
         <Controller
           control={control}
           name='description'
@@ -128,8 +135,12 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
              <>
               <Label
                 title='Especie'
-                onPress={() => {}}
+                onPress={handleEditSpecie}
                 text={value || 'Selecione a especie do pet'}
+              />
+              <InputSpecie
+              title='Especie'
+              ref={inputSpecieRef}
               />
           </>
         }
@@ -141,13 +152,12 @@ const FormPet:React.ForwardRefRenderFunction<FormPetHandles> = (props, ref) => {
              <>
               <Label
                 title='Tamanho'
-                onPress={() => {}}
+                onPress={() => exampleRef.current?.open()}
                 text={value || 'Selecione o tamanho do pet'}
               />
           </>
         }
         />
-
       </View>
     </Modalize>
   )
@@ -158,8 +168,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   content: {
-    flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     alignItems: 'center',
     justifyContent: 'center'
   }
