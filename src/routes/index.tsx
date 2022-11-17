@@ -9,10 +9,12 @@ import { useAuth } from '../contexts/auth'
 const Routes = () => {
   const { signed, loading } = useAuth()
 
+  console.log(signed, loading)
+
   if (loading) {
     return <AppLoading />
   }
-  return signed ? <AppRoutes /> : <AuthRoutes/>
+  return !signed ? <AppRoutes /> : <AuthRoutes/>
 }
 
 export default Routes
